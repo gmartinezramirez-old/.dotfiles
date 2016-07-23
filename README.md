@@ -1,7 +1,4 @@
 # dotfiles
-:octocat: Development environment setup, where :heart: my belongs.
-
-# dotfiles
 :octocat: Development environment setup, where :heart: my belongs. 
 
 ## Features
