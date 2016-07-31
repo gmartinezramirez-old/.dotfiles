@@ -1,5 +1,7 @@
 <!-- In this section add logo or name of the proyect -->
-<h1 align="center">dotfiles</h1>
+<!-- <h1 align="center">dotfiles</h1> -->
+
+<center><img src="https://github.com/jglovier/dotfiles-logo/blob/master/dotfiles-logo.png" alt="dotfiles logo" width="400"></center>
 
 <!-- In this section add a brief description of the proyect, add (WIP) if is a work in progress -->
 <div align="center">:octocat: Development environment setup, where :heart: my belongs.</div>
