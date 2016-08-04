@@ -47,6 +47,16 @@
 * `<Caps>` remapped to `<ESC>` with [xmodmap](https://wiki.archlinux.org/index.php/xmodmap) script
 * Use of [xcape](https://github.com/alols/xcape)
 
+### Keybinding
+
+|      | PREFIX/LEADER |   |   |   |
+|------|---------------|---|---|---|
+| TMUX |   CTRL-Space  |   |   |   |
+| I3WM |      Win      |   |   |   |
+| VIM  |     Space     |   |   |   |
+| ZSH  |               |   |   |   |
+
+
 ### Vim-like keybinding programs
 * File manager:
   * [vifm](https://github.com/vifm/vifm)
