@@ -1,7 +1,7 @@
 #Vim config
 
 <!--<p align="center"> -->
-<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/vim-logo.png" alt="Vim logo" width="400">
+<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/vim-logo.png" alt="Vim logo" width="300">
 <!--</p>-->
 
 <!-- In this section add TOC for easy navegation -->
