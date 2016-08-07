@@ -1,5 +1,9 @@
 #Vim config
 
+<!--<p align="center"> -->
+<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/vim-logo.png" alt="Vim logo" width="400">
+<!--</p>-->
+
 <!-- In this section add TOC for easy navegation -->
 
 <b><a href="#overview">Overview</a></b>
