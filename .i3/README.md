@@ -1,7 +1,7 @@
-#I3wm config
+<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/i3wm-logo.png" alt="i3wm logo" align=left  width=150px height=150px>
 
-<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/i3wm-logo.png" alt="i3wm logo" width="400">
-
+i3wm config
+========
 <!-- In this section add TOC for easy navegation -->
 
 <b><a href="#overview">Overview</a></b>
