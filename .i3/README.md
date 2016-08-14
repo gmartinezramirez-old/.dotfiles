@@ -1,4 +1,4 @@
-<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/i3wm-logo.png" alt="i3wm logo" align=left  width=150px height=150px>
+<img src="https://github.com/gmartinezramirez/Screenshots/blob/master/i3wm-logo.png" alt="i3wm logo" align=left  width="400">
 
 i3wm config
 ========
@@ -12,7 +12,7 @@ i3wm config
 |
 <b><a href="#structure">Structure</a></b>
 
-
+<br>
 ##Overview
 
 <p align="right"><a href="#top">:arrow_up:</a></p>
