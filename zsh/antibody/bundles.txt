@@ -1,0 +1,12 @@
+caarlos0/jvm
+caarlos0/zsh-mkc
+mafredri/zsh-async
+sindresorhus/pure
+caarlos0/zsh-git-sync
+zsh-users/zsh-completions
+caarlos0/zsh-add-upstream
+caarlos0/zsh-open-github-pr
+caarlos0/zsh-git-fetch-merge
+joel-porquet/zsh-dircolors-solarized
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
