@@ -1,29 +1,18 @@
-# =============================================================================
+# -----------------------------------------------------------------------------
 # Status bar settings
-# =============================================================================
+# -----------------------------------------------------------------------------
+# Status colour
+set -g status-fg white
+set -g status-bg black
 
 # Set status position
-set-option -g status-position bottom
-
-# Set the base at 1
-set -g base-index 1
-setw -g pane-base-index 1
-
-# Renumber when windows is closed
-set -g renumber-windows on
-
-# Activity monitoring
-setw -g monitor-activity on
+set-option -g status-position top
 
 # Status settings
-set -g status-interval 15
 set -g status-justify centre
 
 # Left Status
-set -g status-left-length  20
-set -g status-left "[#S]"
+set -g status-left-length 20
 
 # Right Status
-set -g status-right-length 20
-set -g status-right "%l:%M %b %d %a "
-
+set -g status-right-length 50
