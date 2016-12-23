@@ -1,0 +1,276 @@
+
+## i3wm config file
+
+## Location: ~/.config/i3/config 
+
+# Variables {{{
+#set $mod Mod3 
+set $mod Mod4
+#set $mod Ctrl
+
+# Set variable colours
+set $bg-color 	         #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+set $WS1 1:  WEB
+set $WS2 2:  TERM
+set $WS3 3:  FILES
+set $WS4 4:  CODE
+set $WS5 5:  MUSIC 
+set $WS6 6: THESIS
+set $WS7 7: WS.7
+set $WS8 8: WS.8
+set $WS9 9: WS.9
+set $WS10 10: WS.10
+
+set $i3_path /home/gonzalo/.i3
+# }}}
+
+font pango: System San Francisco Display 10
+#font pango:DejaVu Sans Mono 8
+
+# Hide vertical borders adjacent to the screen edges
+hide_edge_borders both
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu (a program launcher)
+#bindsym $mod+d exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+ntilde focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+ntilde move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Workspace monitor
+
+# Internal notebook monitor
+workspace 2 output eDP1
+
+# VGA External
+workspace 1 output VGA1
+
+# switch to workspace
+bindsym $mod+1 workspace $WS1
+bindsym $mod+2 workspace $WS2
+bindsym $mod+3 workspace $WS3
+bindsym $mod+4 workspace $WS4
+bindsym $mod+5 workspace $WS5
+bindsym $mod+6 workspace $WS6
+bindsym $mod+7 workspace $WS7
+bindsym $mod+8 workspace $WS8
+bindsym $mod+9 workspace $WS9
+bindsym $mod+0 workspace $WS10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $WS1
+bindsym $mod+Shift+2 move container to workspace $WS2
+bindsym $mod+Shift+3 move container to workspace $WS3
+bindsym $mod+Shift+4 move container to workspace $WS4
+bindsym $mod+Shift+5 move container to workspace $WS5
+bindsym $mod+Shift+6 move container to workspace $WS6
+bindsym $mod+Shift+7 move container to workspace $WS7
+bindsym $mod+Shift+8 move container to workspace $WS8
+bindsym $mod+Shift+9 move container to workspace $WS9
+bindsym $mod+Shift+0 move container to workspace $WS10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym ntilde resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+bindsym $mod+x [urgent=latest] focus
+
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00	
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+# bar
+bar {
+        status_command i3status
+	position top
+        tray_output primary
+	colors {
+		background $bg-color
+	    	separator #757575
+		#                  border             background         text
+		focused_workspace  $bg-color          $bg-color          $text-color
+		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+	}
+}
+
+
+## Keybinding {{{
+
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 50 -padding 100 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18" -fuzzy
+
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -- -5% #decrease sound volume
+bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle # mute sound
+
+## }}}
+
+## Scratchpad {{{
+#bindsym $mod+m exec --no-startup-id urxvt
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the first scratchpad window
+#bindsym Ctrl+o scratchpad show
+
+# Show personal wiki
+#bindsym $mod+w scratchpad show
+
+# Show dropdown terminal
+#
+
+# startup of the hidden terminal "metask"
+exec --no-startup-id urxvt -name metask
+# start it up if close the workspace (mod+q)
+bindsym $mod+SHIFT+o exec --no-startup-id urxvt -name metask
+# the actual conf for the dropdown terminal size
+for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0px 22px;resize shrink height 300px; resize grow width 683px; move scratchpad
+# bind mod+o key to show (add yours)
+bindsym $mod+o [instance="metask"] scratchpad show
+
+## }}}
+
+## Floating dialogs {{{
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+# Guake floating window
+for_window [class="Main.py"] floating enable
+for_window [title="Preferences$"] floating enable
+
+## }}}
+
+
+## No windows title {{{
+for_window [class="urxvt"] border pixel 1
+
+## }}}
+
+## Assign workspace {{{
+assign [class="^Firefox$"]      → $WS1
+assign [title="^Print$"]        → $WS1
+assign [class="terminal"]       → $WS2
+
+## }}}
+
+
+# Start
+
+exec --no-startup-id xmodmap ~/.speedswapper
+exec --no-startup-id ~/dotfiles/i3/i3-alternating-layout/alternating_layouts.py
+#exec dropbox start
+#exec dropboxd
+exec --no-startup-id exec ~/.dropbox-dist/dropboxd
+#exec --no-startup-id guake start
+#exec --no-startup-id dunst
+
+# Multiple monitor 
+exec_always xrandr --output HDMI1 --off --output VIRTUAL1 --off --output DP1 --off --output eDP1 --primary --mode 1920x1080 --pos 1936x0 --rotate normal --output VGA1 --mode 1280x1024 --pos 656x0 --rotate normal
+
+# Redshift light
+exec --no-startup-id redshift-gtk -l -33.4489:-70.6693
+
+# Wallpaper
+exec --no-startup-id feh --bg-fill ~/dotfiles/wallpapers/nature-dark.jpg
+
+# vim:filetype=i3

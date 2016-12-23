@@ -1,0 +1,13 @@
+# ~/.tmuxinator/default.yml
+
+name: default
+root: ~/
+
+windows:
+  - editor: nvim
+  - console: 
+      layout: main-vertical
+      panes:
+        - clear
+        - #empty
+  - htop: htop 
