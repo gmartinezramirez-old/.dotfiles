@@ -1,391 +1,215 @@
+" -----------------------------------------------------------------------------
+" Vim (Neovim) configuration file
+" Location (vim): ~/.vimrc
+" Location (neovim): ~/.config/nvim/init.vim
+" Author: Gonzalo Martínez
+" Leader: Space
+" -----------------------------------------------------------------------------
+" Source config files
+"for file in split(glob('~/dotfiles/vim/*.vim'), '\n')
+"  exe 'source' f
+"endfor
 
-
-if &shell =~# 'fish$'
-  set shell=/bin/bash
-  endif
-
+" -----------------------------------------------------------------------------
+"  General
+" -----------------------------------------------------------------------------
+set encoding=utf8
+set number
+set relativenumber
 set nocompatible
+let g:mapleader="\<space>"
+filetype plugin indent on
+filetype plugin on
+filetype indent on
+syntax on
 
-if has('autocmd')
-  filetype plugin indent on
-endif
-
-if has('syntax')
-  syntax enable
-endif
-
-set autoindent
-set backspace=indent,eol,start
-set complete-=i
-
-set smarttab
-
-set nrformats-=octal
+filetype off
+set notimeout
 set ttimeout
-set ttimeoutlen=100
+set ttimeoutlen=10
 
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  let g:loaded_python_provider = 1
+  let g:python_host_skip_check=1
+  let g:python3_host_skip_check=1
+  let g:python3_host_prog = '/usr/local/bin/python3'
+endif
+
+" -----------------------------------------------------------------------------
+"  Split settings
+" -----------------------------------------------------------------------------
+set splitbelow
+set splitright
+
+" -----------------------------------------------------------------------------
+"  Spell
+" -----------------------------------------------------------------------------
+"TODO: ADD spellfile, set spelllang
+"set spellfile =
+"set spelllang=en_us
+set nospell
+
+" -----------------------------------------------------------------------------
+"  Search
+" -----------------------------------------------------------------------------
+set ignorecase " Ignore case by default
+set smartcase " Make search case sensitive
+set wrapscan " Search again from top
+set nohlsearch
+set gdefault
+set ignorecase
+set smartcase
 set incsearch
+set showmatch
 
-set tabstop=2
-set shiftwidth=2
-set expandtab
+" -----------------------------------------------------------------------------
+"  Undo
+" -----------------------------------------------------------------------------
+if has('persistent_undo')
+  set undofile
+  "set undodir=~/.config/nvim/tmp/undo//
+endif
 
-nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+" -----------------------------------------------------------------------------
+"  White character configuration
+" -----------------------------------------------------------------------------
+set list  " Show listchars by default
+"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:·,nbsp:·
+"set showbreak=↪
 
+" -----------------------------------------------------------------------------
+"  Folding
+" -----------------------------------------------------------------------------
+set foldmethod=marker " Markers are used to specify folds.
+set foldlevel=2 " Start folding automatically from level 2
+set fillchars="fold: " " Characters to fill the statuslines and vertical separators
+
+" -----------------------------------------------------------------------------
+"  Completition
+" -----------------------------------------------------------------------------
+set completeopt-=preview " Don't show preview scratch buffers
+set wildignore=*.o,*.obj,*~
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=*.gem
+set wildignore+=tmp/**
+
+" -----------------------------------------------------------------------------
+"  Keybinding
+" -----------------------------------------------------------------------------
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" When jump to next match also center screen
+nnoremap n nzz
+nnoremap N Nzz
+vnoremap n nzz
+vnoremap N Nzz
+
+" Same when moving up and down
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-f> <C-f>zz
+nnoremap <C-b> <C-b>zz
+vnoremap <C-u> <C-u>zz
+vnoremap <C-d> <C-d>zz
+vnoremap <C-f> <C-f>zz
+vnoremap <C-b> <C-b>zz
+
+nnoremap <Leader>q :q!<CR> " Quit
+nnoremap <Leader>w :w<CR> " Save
+nnoremap <Leader>W :wq<CR> " Save and quit
+nmap <Leader><Leader> V
+
+" -----------------------------------------------------------------------------
+"  Visual
+" -----------------------------------------------------------------------------
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
+
+set numberwidth=5
+set backspace=2
+set noswapfile
 set laststatus=2
-
 set ruler
 set showcmd
 set wildmenu
 set display+=lastline
+set cmdheight=2
 
+set autowrite
 set autoread
-set history=1000
-set tabpagemax=50
 
+set magic
+set lazyredraw
+set backspace=indent,eol,start
+set cursorline
+set colorcolumn=80
 
-" Select your Leader key
-let mapleader = "\<Space>"
+set smarttab
+set ttimeout
+set ttimeoutlen=100
 
+" -----------------------------------------------------------------------------
+"  Color
+" -----------------------------------------------------------------------------
+set background=dark
 
-set number
-set relativenumber 
+" -----------------------------------------------------------------------------
+"  Filetype
+" -----------------------------------------------------------------------------
+autocmd Filetype gitcommit setlocal spell textwidth=72 
 
+" -----------------------------------------------------------------------------
+"  Plugins
+" -----------------------------------------------------------------------------
+call plug#begin('~/.vim/plugged')
+" .............................................................................
+"  Plugin list
+" .............................................................................
 
+Plug 'tpope/vim-fugitive'
 
-" Plugins
-call plug#begin()
+" Git log viewer (Gitv! for file mode)
+Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 
-Plug 'sheerun/vimrc'
+" Safely editing in isolation
+Plug 'ferranpm/vim-isolate', { 'on':  ['Isolate', 'UnIsolate'] }
+Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
-" Load other plugins
-
-
+Plug 'morhetz/gruvbox'
+Plug 'edkolev/tmuxline.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tmux-plugins/vim-tmux'
+Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-cursorword'
+Plug 'justinmk/vim-dirvish'
+Plug 'ekalinin/Dockerfile.vim'
+"Plug 'lambdalisue/vim-gita'
+Plug 'janko-m/vim-test'
+Plug 'easymotion/vim-easymotion'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-
 Plug 'junegunn/rainbow_parentheses.vim'
 
-Plug 'itchyny/lightline.vim'
-
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-commentary',        { 'on': '<Plug>Commentary' }
-
-Plug 'mbbill/undotree',             { 'on': 'UndotreeToggle'   }
-
-" Better search tools
-Plug 'vim-scripts/IndexedSearch'
-Plug 'vim-scripts/SmartCase'
-Plug 'vim-scripts/gitignore'
-
-" Python support
-Plug 'vim-scripts/indentpython.vim'
-
-
-" Lightning fast :Ag searcher
-Plug 'rking/ag.vim'
-
-" Ruby extensions
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'tpope/vim-rake', { 'for': 'ruby' }
-Plug 'kana/vim-textobj-user', { 'for': 'ruby' }
-
-" Navitate freely between tmux and vim
-Plug 'christoomey/vim-tmux-navigator'
-
-Plug 'janko-m/vim-test'
-Plug 'kassio/neoterm'
-Plug 'benekastah/neomake'
-" {{{
-
-"Run checker when a file is openned or saved
-"autocmd! BufRead,BufWritePost * Neomake
-
-"let g:neomake_javascript_enabled_makers = ['eslint']
-"let g:neomake_java_enabled_makers = ['javac']
-"let g:neomake_ruby_enabled_makers = ['rubocop']
-"let g:neomake_haskell_enabled_makers = ['ghcmod']
-"let g:neomake_coffeescript_enabled_makers = ['coffeelint']
-"let g:neomake_jsx_enabled_makers = ['jsxhint']
-"let g:neomake_scss_enabled_makers = ['scsslint']
-"let g:neomake_css_enabled_makers = ['csslint']
-"let g:neomake_php_enabled_makers = ['phpcs']
-
-"}}}
-
-
-" Run ruby tests with vimux
-Plug 'benmills/vimux'
-Plug 'skalnik/vim-vroom'
-Plug 'tpope/vim-dispatch'
-let g:vroom_use_vimux = 1
-let g:vroom_write_all = 1
-let g:vroom_use_binstubs = 1
-let g:vroom_use_colors = 0
-let g:vroom_rspec_version = "3.x"
-let g:VimuxHeight = "40"
-
-
-
-" Diary, notes, whatever
-Plug 'vimwiki/vimwiki'
-" Set Vim Wiki to my Dropbox directory
-let g:vimwiki_list = [{'path':'$HOME/Dropbox/vimwiki'}]
-
-" Allow to :Rename files
-Plug 'danro/rename.vim'
-
-" Automatically find root project directory
-Plug 'airblade/vim-rooter'
-let g:rooter_disable_map = 1
-let g:rooter_silent_chdir = 1
-
-Plug 'dag/vim-fish'
-
-
-" Appearance
-" ====================================================================
-Plug 'nathanaelkane/vim-indent-guides'
-" {{{
-  let g:indent_guides_default_mapping = 0
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_exclude_filetypes = ['help', 'startify', 'man', 'rogue']
-" }}}
-
-Plug 'tpope/vim-sleuth'
-Plug 't9md/vim-choosewin'
-" {{{
-  nmap <leader>' <Plug>(choosewin)
-  let g:choosewin_blink_on_land = 0
-  let g:choosewin_tabline_replace = 0
-" }}}
-
-" Completion
-" ====================================================================
-Plug 'SirVer/ultisnips'
-" {{{
-" }}}
-Plug 'honza/vim-snippets'
-
-" File Navigation
-" ====================================================================
-Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
-Plug 'junegunn/fzf.vim'
-" {{{
-  let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-
-  nnoremap <silent> <leader><space> :Files<CR>
-  nnoremap <silent> <leader>a :Buffers<CR>
-  nnoremap <silent> <leader>; :BLines<CR>
-  nnoremap <silent> <leader>. :Lines<CR>
-  nnoremap <silent> <leader>o :BTags<CR>
-  nnoremap <silent> <leader>O :Tags<CR>
-  nnoremap <silent> <leader>? :History<CR>
-  nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
-  nnoremap <silent> K :call SearchWordWithAg()<CR>
-  vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-  nnoremap <silent> <leader>gl :Commits<CR>
-  nnoremap <silent> <leader>ga :BCommits<CR>
-
-  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-  imap <C-x><C-l> <plug>(fzf-complete-line)
-
-  function! SearchWordWithAg()
-    execute 'Ag' expand('<cword>')
-  endfunction
-
-  function! SearchVisualSelectionWithAg() range
-    let old_reg = getreg('"')
-    let old_regtype = getregtype('"')
-    let old_clipboard = &clipboard
-    set clipboard&
-    normal! ""gvy
-    let selection = getreg('"')
-    call setreg('"', old_reg, old_regtype)
-    let &clipboard = old_clipboard
-    execute 'Ag' selection
-  endfunction
-
-
-
-"Text Navigation
-" ====================================================================
-Plug 'Lokaltog/vim-easymotion'
-" {{{
-  let g:EasyMotion_do_mapping = 0
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_off_screen_search = 0
-  nmap ; <Plug>(easymotion-s2)
-" }}}
-Plug 'rhysd/clever-f.vim'
-" {{{
-  let g:clever_f_across_no_line = 1
-" }}}
-
-" Text Manipulation
-" ====================================================================
-Plug 'tpope/vim-surround'
-Plug 'junegunn/vim-easy-align',       { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-" {{{
-  let g:easy_align_ignore_comment = 0 " align comments
-  vnoremap <silent> <Enter> :EasyAlign<cr>
-" }}}
-
-
-"vmap <Enter> <Plug>(EasyAlign)
-"nmap <Leader>a <Plug>(EasyAlign)
-
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-abolish'
-
-" Text Objects
-" ====================================================================
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-indent'
-Plug 'nelstrom/vim-textobj-rubyblock'
-
-
-" Languages
-" ====================================================================
-Plug 'Shougo/deoplete.nvim'
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-Plug 'mattn/emmet-vim'
-" {{{
-  let g:user_emmet_expandabbr_key = '<c-e>'
-" }}}
-Plug 'Valloric/MatchTagAlways'
-Plug 'tpope/vim-ragtag'
-" {{{
-  let g:ragtag_global_maps = 1
-" }}}
-
-" Git
-" ====================================================================
-Plug 'tpope/vim-fugitive'
-" {{{
-  " Fix broken syntax highlight in gitcommit files
-  " (https://github.com/tpope/vim-git/issues/12)
-  let g:fugitive_git_executable = 'LANG=en_US.UTF-8 git'
-
-  nnoremap <silent> <leader>gs :Gstatus<CR>
-  nnoremap <silent> <leader>gd :Gdiff<CR>
-  nnoremap <silent> <leader>gc :Gcommit<CR>
-  nnoremap <silent> <leader>gb :Gblame<CR>
-  nnoremap <silent> <leader>ge :Gedit<CR>
-  nnoremap <silent> <leader>gE :Gedit<space>
-  nnoremap <silent> <leader>gr :Gread<CR>
-  nnoremap <silent> <leader>gR :Gread<space>
-  nnoremap <silent> <leader>gw :Gwrite<CR>
-  nnoremap <silent> <leader>gW :Gwrite!<CR>
-  nnoremap <silent> <leader>gq :Gwq<CR>
-  nnoremap <silent> <leader>gQ :Gwq!<CR>
-
-  function! ReviewLastCommit()
-    if exists('b:git_dir')
-      Gtabedit HEAD^{}
-      nnoremap <buffer> <silent> q :<C-U>bdelete<CR>
-    else
-      echo 'No git a git repository:' expand('%:p')
-    endif
-  endfunction
-  nnoremap <silent> <leader>g` :call ReviewLastCommit()<CR>
-
-  augroup fugitiveSettings
-    autocmd!
-    autocmd FileType gitcommit setlocal nolist
-    autocmd BufReadPost fugitive://* setlocal bufhidden=delete
-  augroup END
-" }}}
-Plug 'idanarye/vim-merginal'
-" {{{
-  nnoremap <leader>gm :MerginalToggle<CR>
-" }}}
-Plug 'airblade/vim-gitgutter'
-" {{{
-  let g:gitgutter_map_keys = 0
-  let g:gitgutter_max_signs = 200
-  let g:gitgutter_realtime = 0
-  let g:gitgutter_eager = 0
-  let g:gitgutter_diff_args = '--ignore-space-at-eol'
-  nmap <silent> ]h :GitGutterNextHunk<CR>
-  nmap <silent> [h :GitGutterPrevHunk<CR>
-  nnoremap <silent> <Leader>gu :GitGutterRevertHunk<CR>
-  nnoremap <silent> <Leader>gp :GitGutterPreviewHunk<CR><c-w>j
-  nnoremap cog :GitGutterToggle<CR>
-" }}}
-
-
-" Utility
-" ====================================================================
-Plug 'ludovicchabant/vim-gutentags'
-" {{{
-  let g:gutentags_exclude = [
-      \ '*.min.js',
-      \ '*html*',
-      \ 'jquery*.js',
-      \ '*/vendor/*',
-      \ '*/node_modules/*',
-      \ '*/python2.7/*',
-      \ '*/migrate/*.rb'
-      \ ]
-  let g:gutentags_generate_on_missing = 0
-  let g:gutentags_generate_on_write = 0
-  let g:gutentags_generate_on_new = 0
-  nnoremap <leader>t! :GutentagsUpdate!<CR>
-" }}}
-Plug 'tpope/vim-characterize'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-projectionist'
-" {{{
-  let g:projectionist_heuristics = {}
-" }}}
-
-
-" Misc
-" ====================================================================
-Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
-" {{{
-  let g:calendar_date_month_name = 1
-" }}}
-
 call plug#end()
+" .............................................................................
+"  Plugins Configuration
+" .............................................................................
+let g:tmuxline_preset = 'tmux'
+let g:lightline = {}
+let g:lightline.colorscheme = 'gruvbox'
 
-
-
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
-
-nnoremap <C-n> :call NumberToggle()<cr>
-
-
-:au FocusLost * :set number
-:au FocusGained * :set relativenumber
-
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
-
-
-
-" Specific config for FileTypes
-
-" Python config
-au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
-
+colorscheme gruvbox
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark= 'hard'
