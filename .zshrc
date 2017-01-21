@@ -5,39 +5,55 @@
 # Author: Gonzalo Martinez
 # -----------------------------------------------------------------------------
 
-# -----------------------------------------------------------------------------
-# Global variables
-# -----------------------------------------------------------------------------
-# TODO: Write valid global variables
-#$DOWNLOAD_DIR = "~/Descargas"
-#$DOTFILES_DIR = "~/dotfiles"
-#$PROJECTS_DIR = "~/projects"
 
-# -----------------------------------------------------------------------------
-# General ZSH settings
-# -----------------------------------------------------------------------------
-# Disable control flow
-# ssty
+# Plugin manager: Zplug
+source ~/.zplug/init.zsh
 
-setopt correct # Set spelling correction
-unsetopt nomatch # Dont raise error when regex nomatch fires
+# Make sure to use double quotes
+zplug "zsh-users/zsh-history-substring-search"
 
-# Colors for GNU ls
-# TODO: Fix initial display of the configuration
-#eval 'dircolors ~/dotfiles/config/dircolors/gruvbox.dircolors'
+# Supports oh-my-zsh plugins and the like
+zplug "plugins/git",   from:oh-my-zsh
 
-# -----------------------------------------------------------------------------
-# Oh my zsh settings
-# -----------------------------------------------------------------------------
-export ZSH=$HOME/.oh-my-zsh # Path to OMZ installation
-ZSH_THEME="bira" # Look in ~/.oh-my-zsh/themes
-DISABLE_AUTO_TITLE="true" # Disable auto title setting
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-history-substring-search", defer:3
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-# -----------------------------------------------------------------------------
-# Plugins declaration
-# -----------------------------------------------------------------------------
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git bower gulp docker extract gem ruby rails git-flow gitfast zsh-autosuggestions zsh-syntax-highlighting zsh-completions tmux tmuxinator) 
+# Async for zsh, used by pure
+ zplug "mafredri/zsh-async", from:github, defer:0
+# # Load completion library for those sweet [tab] squares
+ zplug "lib/completion", from:oh-my-zsh
+# # Syntax highlighting for commands, load last
+# zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:3
+# # Theme!
+ zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+       echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load --verbose
+
+setopt always_last_prompt
+setopt auto_cd
+setopt auto_menu
+setopt auto_param_keys
+setopt auto_param_slash
+setopt auto_pushd
+setopt complete_in_word
+setopt globdots
+setopt interactive_comments
+setopt list_types
+setopt magic_equal_subst
+
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion:*:default' menu 'select=0'
 
 # -----------------------------------------------------------------------------
 # Aliases
@@ -49,6 +65,7 @@ plugins=(git bower gulp docker extract gem ruby rails git-flow gitfast zsh-autos
 alias b="cd .."
 alias c="clear"
 alias q="exit"
+alias ls='ls -X --color=auto --group-directories-first'
 alias ll="ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F"
 alias lt="ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F"
 alias l.="ls -ld .* --group-directories-first --color=auto -F"
@@ -68,6 +85,7 @@ alias d="docker"
 alias g="git"
 alias mux="tmuxinator"
 alias vpn="sudo openvpn --config /home/gonzalo/config/client.ovpn"
+alias intellij="~/bin/intellij/bin/./idea.sh"
 
 # .............................................................................
 # Config files
@@ -109,35 +127,29 @@ alias install="sudo apt-get install"
 # Path aliases
 # .............................................................................
 alias home="$HOME"
-alias p="cd ~/Projects"
-alias projects="cd ~/Projects"
-alias code= "cd ~/Code"
-alias c="cd ~/Code"
+alias p="cd ~/projects"
+alias code= "cd ~/code"
+alias c="cd ~/code"
 alias dl="cd ~/Descargas"
 alias README= "nvim README.md"
 alias dropbox="cd ~/Dropbox"
+alias dbox="cd ~/Dropbox"
 
 # .............................................................................
 # Git aliases
 # -----------------------------------------------------------------------------
 alias ga="g add"
 alias gs="g status"
+alias gc="g commit"
 alias s="g status"
-
-# -----------------------------------------------------------------------------
-# Sourcing
-# -----------------------------------------------------------------------------
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-source $ZSH/oh-my-zsh.sh
-#source ~/.bin/tmuxinator.zsh
-#source ~/usr/bin/tmuxinator
 
 # -----------------------------------------------------------------------------
 # Exports
 # -----------------------------------------------------------------------------
 export TERM=xterm-256color # 256 colour support
-export EDITOR='nvim' 
+export EDITOR='nvim'
 export VISUAL='nvim'
 export MYNVIMRC='~/.config/nvim/init.vim'
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
