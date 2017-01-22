@@ -149,7 +149,8 @@ alias s="g status"
 # Access
 # .............................................................................
 alias mac="ssh 158.170.35.22"
-alias citiaps="ssh gonzalo@158.170.35.88"
+#alias citiaps="ssh gonzalo@158.170.35.88"
+alias citiaps1="ssh gonzalo@citiaps1.diinf.usach.cl"
 
 # -----------------------------------------------------------------------------
 # Exports
