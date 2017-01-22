@@ -101,10 +101,10 @@ alias dot="cd ~/dotfiles"
 alias gitrc="e ~/dotfiles/git/.gitconfig"
 alias i3rc="e ~/dotfiles/i3/config"
 alias vimrc="e  ~/dotfiles/.vimrc"
-alias tmuxrc="nvim ~/dotfiles/.tmux.conf"
-alias termiterc="nvim ~/dotfiles/.tmuxrc"
-alias zshconfig="nvim ~/dotfiles/.zshrc"
-alias zshrc="nvim ~/dotfiles/.zshrc"
+alias tmuxrc="e ~/dotfiles/.tmux.conf"
+alias termiterc="e ~/dotfiles/.tmuxrc"
+alias zshconfig="e ~/dotfiles/.zshrc"
+alias zshrc="e ~/dotfiles/.zshrc"
 alias symrc="e ~/dotfiles/symbolic-link.sh"
 
 # .............................................................................
@@ -126,7 +126,9 @@ alias tls="tmux list-session"
 # apt-get
 # .............................................................................
 alias update="sudo apt-get update"
+alias upd="sudo apt-get update"
 alias upgrade="sudo apt-get upgrade"
+alias upg="sudo apt-get upgrade"
 alias install="sudo apt-get install"
 
 # .............................................................................
@@ -137,7 +139,7 @@ alias p="cd ~/projects"
 alias code= "cd ~/code"
 alias c="cd ~/code"
 alias dl="cd ~/Descargas"
-alias README= "nvim README.md"
+alias README= "e README.md"
 alias dropbox="cd ~/Dropbox"
 alias dbox="cd ~/Dropbox"
 
