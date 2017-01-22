@@ -52,8 +52,9 @@ setopt interactive_comments
 setopt list_types
 setopt magic_equal_subst
 
-zstyle ':completion::complete:*' use-cache 1
-zstyle ':completion:*:default' menu 'select=0'
+#TODO: is too slow
+#zstyle ':completion::complete:*' use-cache 1
+#zstyle ':completion:*:default' menu 'select=0'
 
 # -----------------------------------------------------------------------------
 # Aliases
@@ -74,6 +75,7 @@ alias grep="grep --color=tty -d skip"
 alias cp="cp -i" # Confirm before overwriting something
 alias df='df -h' # Human-readable sizes
 alias free='free -m' # Show sizes in MB
+alias halt="sudo poweroff"
 
 # .............................................................................
 # Applications
@@ -137,11 +139,17 @@ alias dbox="cd ~/Dropbox"
 
 # .............................................................................
 # Git aliases
-# -----------------------------------------------------------------------------
+# .............................................................................
 alias ga="g add"
 alias gs="g status"
 alias gc="g commit"
 alias s="g status"
+
+# .............................................................................
+# Access
+# .............................................................................
+alias mac="ssh 158.170.35.22"
+alias citiaps="ssh gonzalo@158.170.35.88"
 
 # -----------------------------------------------------------------------------
 # Exports
