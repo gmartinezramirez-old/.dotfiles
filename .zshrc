@@ -1,10 +1,9 @@
 # -----------------------------------------------------------------------------
 # ZSH configuration file
 # Location: ~/.dotfiles/zsh/.zshrc
-# Symlinked: ~/.zshrc (actual)
+# Symlinked: ~/.zshrc
 # Author: Gonzalo Martinez
 # -----------------------------------------------------------------------------
-
 
 # Plugin manager: Zplug
 source ~/.zplug/init.zsh
@@ -66,6 +65,7 @@ setopt magic_equal_subst
 alias b="cd .."
 alias c="clear"
 alias q="exit"
+alias l="ls"
 alias ls='ls -X --color=auto --group-directories-first'
 alias ll="ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F"
 alias lt="ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F"
@@ -80,13 +80,17 @@ alias halt="sudo poweroff"
 # .............................................................................
 # Applications
 # .............................................................................
-alias e=$EDITOR
-alias v=$VISUAL
+#alias e=$EDITOR
+#alias v=$VISUAL
+alias e="nvim"
+alias v="nvim"
+alias vim="nvim"
 alias f="ranger"
 alias d="docker"
 alias g="git"
 alias mux="tmuxinator"
 alias vpn="sudo openvpn --config /home/gonzalo/config/client.ovpn"
+#TODO: intellij alias dont work, must be refactored
 alias intellij="~/bin/intellij/bin/./idea.sh"
 
 # .............................................................................
@@ -94,14 +98,14 @@ alias intellij="~/bin/intellij/bin/./idea.sh"
 # .............................................................................
 alias dotfiles="cd ~/dotfiles"
 alias dot="cd ~/dotfiles"
-alias gitrc="cd ~/.gitconfig"
-alias i3rc="nvim ~/.config/i3/config"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias vimrc="nvim  ~/.config/nvim/init.vim"
-alias tmuxrc="nvim ~/.tmux.conf"
-alias termiterc="nvim ~/.config/termite/config"
-alias zshconfig="nvim ~/.zshrc"
-alias zshrc="nvim ~/.zshrc"
+alias gitrc="e ~/dotfiles/git/.gitconfig"
+alias i3rc="e ~/dotfiles/i3/config"
+alias vimrc="e  ~/dotfiles/.vimrc"
+alias tmuxrc="nvim ~/dotfiles/.tmux.conf"
+alias termiterc="nvim ~/dotfiles/.tmuxrc"
+alias zshconfig="nvim ~/dotfiles/.zshrc"
+alias zshrc="nvim ~/dotfiles/.zshrc"
+alias symrc="e ~/dotfiles/symbolic-link.sh"
 
 # .............................................................................
 # Reload config files

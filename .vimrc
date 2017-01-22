@@ -157,7 +157,9 @@ set ttimeoutlen=100
 " -----------------------------------------------------------------------------
 "  Color
 " -----------------------------------------------------------------------------
-set background=dark
+"TODO: configure night and light mode
+set background=light
+"set background=dark
 
 " -----------------------------------------------------------------------------
 "  Filetype
@@ -213,3 +215,4 @@ let g:lightline.colorscheme = 'gruvbox'
 colorscheme gruvbox
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark= 'hard'
+
