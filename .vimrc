@@ -5,6 +5,8 @@
 " Author: Gonzalo Martínez
 " Leader: Space
 " -----------------------------------------------------------------------------
+
+"TODO: modularize vimrc in multiple files
 " Source config files
 "for file in split(glob('~/dotfiles/vim/*.vim'), '\n')
 "  exe 'source' f
@@ -158,8 +160,8 @@ set ttimeoutlen=100
 "  Color
 " -----------------------------------------------------------------------------
 "TODO: configure night and light mode
-set background=light
-"set background=dark
+"set background=light
+set background=dark
 
 " -----------------------------------------------------------------------------
 "  Filetype
