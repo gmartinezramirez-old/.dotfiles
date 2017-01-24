@@ -5,3 +5,4 @@ ln -s ~/dotfiles/.vimrc ~/.config/nvim/init.vim
 ln -s ~/dotfiles/i3/config ~/.config/i3/config
 ln -s ~/dotfiles/git/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.termiterc ~/.config/termite/config
+ln -s ~/dotfiles/.Xresources ~/.Xresources
