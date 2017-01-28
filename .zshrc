@@ -22,13 +22,11 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-history-substring-search", defer:3
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "Tarrasch/zsh-bd"
-
 # Async for zsh, used by pure
  zplug "mafredri/zsh-async", from:github, defer:0
 # # Load completion library for those sweet [tab] squares
  zplug "lib/completion", from:oh-my-zsh
  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -83,6 +81,10 @@ alias df="df -h" # Human-readable sizes
 alias free='free -m' # Show sizes in MB
 alias halt="sudo poweroff"
 
+# TODO: Aliases for copy/paste
+#alias "c=xclip"
+#alias "v=xclip -o"
+
 # .............................................................................
 # Applications
 # .............................................................................
@@ -97,7 +99,7 @@ alias g="git"
 alias mux="tmuxinator"
 alias vpn="sudo openvpn --config /home/gonzalo/config/client.ovpn"
 #TODO: intellij alias dont work, must be refactored
-alias intellij="~/bin/intellij/bin/./idea.sh"
+#alias intellij="~/bin/intellij/bin/./idea.sh"
 
 # .............................................................................
 # Config files
