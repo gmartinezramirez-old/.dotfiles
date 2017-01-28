@@ -15,23 +15,18 @@ fi
 # Plugin manager: Zplug
 source ~/.zplug/init.zsh
 
-# Make sure to use double quotes
-zplug "zsh-users/zsh-history-substring-search"
-
 # Supports oh-my-zsh plugins and the like
 zplug "plugins/git",   from:oh-my-zsh
-
 zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-history-substring-search", defer:3
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "Tarrasch/zsh-bd"
 
 # Async for zsh, used by pure
  zplug "mafredri/zsh-async", from:github, defer:0
 # # Load completion library for those sweet [tab] squares
  zplug "lib/completion", from:oh-my-zsh
-# # Syntax highlighting for commands, load last
-# zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:3
-# # Theme!
  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 
 
