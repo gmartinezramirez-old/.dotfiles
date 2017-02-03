@@ -7,3 +7,5 @@ ln -s ~/dotfiles/git/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.termiterc ~/.config/termite/config
 ln -s ~/dotfiles/.Xresources ~/.Xresources
 ln -s ~/dotfiles/.Xresources ~/.Xdefaults
+ln -s ~/dotfiles/xmonad/xmonad.hs ~/.xmonad/xmonad.hs
+ln -s ~/dotfiles/xmonad/.xmobarrc ~/.xmonad/.xmobarrc
