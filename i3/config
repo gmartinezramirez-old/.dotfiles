@@ -144,25 +144,26 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+bindsym $mod+r mode "resize"
+
 # Resize window
 mode "resize" {
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym ntilde resize grow width 10 px or 10 ppt
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym ntilde resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+    # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
 bindsym $mod+x [urgent=latest] focus
 
 # -----------------------------------------------------------------------------
@@ -251,16 +252,16 @@ for_window [title="Preferences$"] floating enable
 for_window [class="urxvt"] border pixel 1
 for_window [class="(?i)termite"] border normal 0
 
-assign [class="^Firefox$"]      → $WS1
-assign [class="terminal"]       → $WS2
-
+assign [class="^Firefox$"] → $WS1
+assign [class="terminal"]  → $WS2
+assign [class="^tmux$"]    → $WS2
 # -----------------------------------------------------------------------------
 # Startup applications
 # -----------------------------------------------------------------------------
 exec --no-startup-id xmodmap ~/.speedswapper
 exec --no-startup-id $i3-script-alternating-layouts
 exec --no-startup-id $dropbox
-exec --no-startup-id urxvt -e tmux
+exec --no-startup-id urxvt -e tmux -2
 
 #exec --no-startup-id compton --config ~/dotfiles/i3/compton.conf -b
 

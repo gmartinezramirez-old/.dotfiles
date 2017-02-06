@@ -79,6 +79,7 @@ alias grep="grep --color=tty -d skip"
 alias cp="cp -i" # Confirm before overwriting something
 alias df="df -h" # Human-readable sizes
 alias free='free -m' # Show sizes in MB
+alias sus="systemctl suspend"
 alias halt="sudo poweroff"
 
 # TODO: Aliases for copy/paste
@@ -94,6 +95,7 @@ alias e="nvim"
 alias v="nvim"
 alias vim="nvim"
 alias f="ranger"
+alias files="ranger"
 alias d="docker"
 alias g="git"
 alias mux="tmuxinator"
