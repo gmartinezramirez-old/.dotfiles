@@ -79,8 +79,19 @@ alias grep="grep --color=tty -d skip"
 alias cp="cp -i" # Confirm before overwriting something
 alias df="df -h" # Human-readable sizes
 alias free='free -m' # Show sizes in MB
-alias sus="systemctl suspend"
-alias halt="sudo poweroff"
+
+# Systemd
+alias reboot="sudo systemctl reboot"
+alias poweroff="sudo systemctl poweroff"
+alias suspend="sudo systemctl suspend"
+alias sus="sudo systemctl suspend"
+alias halt="sudo systemctl halt"
+
+# No systemd
+#alias halt="sudo poweroff"
+
+# Away from Keyboard (AFK) - Lock the screen
+alias afk="i3lock -c 000000"
 
 # TODO: Aliases for copy/paste
 #alias "c=xclip"
