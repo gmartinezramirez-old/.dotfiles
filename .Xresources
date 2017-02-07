@@ -93,8 +93,8 @@ Xft.hinting:    1
 Xft.antialias:  1
 
 ! -- Fonts -- !
-URxvt.font:xft:Inconsolata:pixelsize=16,style=Medium, xft:Symbola:pixelsize=19,style=Regular
-URxvt.boldFont:xft:Inconsolata:style=Bold,pixelsize=16, xft:Symbola:pixelsize=19,style=Regular
+URxvt.font:xft:Hack-Regular:pixelsize=16,style=Medium, xft:Symbola:pixelsize=19,style=Regular
+URxvt.boldFont:xft:Hack-Bold:style=Bold,pixelsize=16, xft:Symbola:pixelsize=19,style=Regular
 
 *faceSize:              10
 *bellIsUrgent:          true
