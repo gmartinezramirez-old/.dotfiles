@@ -20,35 +20,36 @@ import Graphics.X11.ExtraTypes.XF86
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
-
 ------------------------------------------------------------------------
--- Terminal
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
+-- Main
 --
-myTerminal = "urxvt"
-
--- The command to lock the screen or show the screensaver.
-myScreensaver = "/usr/bin/gnome-screensaver-command --lock"
-
--- The command to take a selective screenshot, where you select
--- what you'd like to capture on the screen.
-mySelectScreenshot = "select-screenshot"
-
--- The command to take a fullscreen screenshot.
-myScreenshot = "screenshot"
-
--- The command to use as a launcher, to launch commands that don't have
--- preset keybindings.
-myLauncher = "$(yeganesh -x -- -fn '-*-terminus-*-r-normal-*-*-120-*-*-*-*-iso8859-*' -nb '#000000' -nf '#FFFFFF' -sb '#7C7C7C' -sf '#CEFFAC')"
+main = do
+    xmproc <- spawnPipe myStatusBar
 
 
 ------------------------------------------------------------------------
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9]
+wsGEN = "1:GEN"
+wsTRM = "2:TRM"
+wsWRK = "3:WRK"
+wsCOD = "4:COD"
+wsVMs = "5:VMs"
 
+myWorkspaces = [wsGEN,wsTRM,wsWRK,wsCOD,wsVMs] ++ map show [6..9]
+
+------------------------------------------------------------------------
+-- Applications
+-- The preferred terminal program, which is used in a binding below and by
+-- certain contrib modules.
+--
+myTerminal = "urxvt"
+myScreensaver = "/usr/bin/gnome-screensaver-command --lock"
+myBrowser = "chromium"
+mySelectScreenshot = "select-screenshot"
+myScreenshot = "screenshot"
+myLauncher = "rofi -matching fuzzy -show run"
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -78,6 +79,96 @@ myManageHook = composeAll
     , className =? "stalonetray"    --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
+------------------------------------------------------------------------
+-- Theme
+--
+myFocusFollowsMouse = False
+myClickJustFocuses = True
+
+base03  = "#002b36"
+base02  = "#073642"
+base01  = "#586e75"
+base00  = "#657b83"
+base0   = "#839496"
+base1   = "#93a1a1"
+base2   = "#eee8d5"
+base3   = "#fdf6e3"
+yellow  = "#b58900"
+orange  = "#cb4b16"
+red     = "#dc322f"
+magenta = "#d33682"
+violet  = "#6c71c4"
+blue    = "#268bd2"
+cyan    = "#2aa198"
+green   = "#859900"
+
+-- sizes
+gap = 10
+topbar = 10
+border = 0
+prompt = 20
+status = 20
+
+myFont      = "-*-terminus-medium-*-*-*-*-160-*-*-*-*-*-*"
+myBigFont   = "-*-terminus-medium-*-*-*-*-240-*-*-*-*-*-*"
+myWideFont  = "xft:Eurostar Black Extended:"
+            ++ "style=Regular:pixelsize=180:hinting=true"
+
+-- this is a "fake title" used as a highlight bar in lieu of full borders
+-- (I find this a cleaner and less visually intrusive solution)
+topBarTheme = def
+    { fontName              = myFont
+    , inactiveBorderColor   = base03
+    , inactiveColor         = base03
+    , inactiveTextColor     = base03
+    , activeBorderColor     = active
+    , activeColor           = active
+    , activeTextColor       = active
+    , urgentBorderColor     = red
+    , urgentTextColor       = yellow
+    , decoHeight            = topbar
+    }
+
+myTabTheme = def
+    { fontName              = myFont
+    , activeColor           = active
+    , inactiveColor         = base02
+    , activeBorderColor     = active
+    , inactiveBorderColor   = base02
+    , activeTextColor       = base03
+    , inactiveTextColor     = base00
+    }
+
+myPromptTheme = def
+    { font                  = myFont
+    , bgColor               = base03
+    , fgColor               = active
+    , fgHLight              = base03
+    , bgHLight              = active
+    , borderColor           = base03
+    , promptBorderWidth     = 0
+    , height                = prompt
+    , position              = Top
+    }
+
+warmPromptTheme = myPromptTheme
+    { bgColor               = yellow
+    , fgColor               = base03
+    , position              = Top
+    }
+
+hotPromptTheme = myPromptTheme
+    { bgColor               = red
+    , fgColor               = base3
+    , position              = Top
+    }
+
+myShowWNameTheme = def
+    { swn_font              = myWideFont
+    , swn_fade              = 0.5
+    , swn_bgcolor           = "#000000"
+    , swn_color             = "#FFFFFF"
+    }
 
 ------------------------------------------------------------------------
 -- Layouts
@@ -137,6 +228,7 @@ myBorderWidth = 1
 myModMask = mod4Mask
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+
   ----------------------------------------------------------------------
   -- Custom key bindings
   --
@@ -173,7 +265,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Increase volume.
   , ((0, xF86XK_AudioRaiseVolume),
      spawn "amixer -q set Master 10%+")
- 
+
   -- Mute volume.
   , ((modMask .|. controlMask, xK_m),
      spawn "amixer -q set Master toggle")
@@ -185,22 +277,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Increase volume.
   , ((modMask .|. controlMask, xK_k),
      spawn "amixer -q set Master 10%+")
-
-  -- Audio previous.
-  , ((0, 0x1008FF16),
-     spawn "")
-
-  -- Play/pause.
-  , ((0, 0x1008FF14),
-     spawn "")
-
-  -- Audio next.
-  , ((0, 0x1008FF17),
-     spawn "")
-
-  -- Eject CD tray.
-  , ((0, 0x1008FF2C),
-     spawn "eject -T")
 
   --------------------------------------------------------------------
   -- "Standard" xmonad key bindings
@@ -302,6 +378,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 --
 -- Focus rules
 -- True if your focus should follow your mouse cursor.
+--
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
 

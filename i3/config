@@ -88,10 +88,14 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # Split in horizontal orientation
-bindsym $mod+h split h
+# bar (|)
+#bindsym $mod+h split h
+bindsym $mod+bar split h
 
 # Split in vertical orientation
-bindsym $mod+v split v
+# minus (-)
+#bindsym $mod+v split v
+bindsym $mod+minus split v
 
 # Enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -270,7 +274,8 @@ exec_always xrandr --output HDMI1 --off --output VIRTUAL1 --off --output DP1 --o
 
 # Redshift light
 # Current position: Santiago, Chile
-exec --no-startup-id redshift-gtk -l -33.4489:-70.6693
+# Not necessary for new screen
+#exec --no-startup-id redshift-gtk -l -33.4489:-70.6693
 
 # Wallpaper
 exec --no-startup-id feh --bg-fill ~/dotfiles/wallpapers/nature-dark.jpg
