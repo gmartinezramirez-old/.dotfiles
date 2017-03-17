@@ -8,11 +8,11 @@
 #Mod1 = Alt key
 #Mod4 = Win key
 
-#set $mod Control
 set $mod Mod4
 set $home /home/gonzalo
 set $i3_path /home/gonzalo/.i3
 set $terminal urxvt -e zsh
+set $font pango: Ubuntu Mono 10
 
 # Set HTML variable colours
 set $colour-light-grey #2f343f
@@ -49,7 +49,7 @@ set $i3-script-alternating-layout ~/dotfiles/i3/i3-alternating-layout/alternatin
 # -----------------------------------------------------------------------------
 # Font                                      
 # -----------------------------------------------------------------------------
-font pango: Ubuntu Mono 10
+font $font
 
 # Hide vertical borders adjacent to the screen edges
 hide_edge_borders both
