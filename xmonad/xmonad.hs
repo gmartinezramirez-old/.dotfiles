@@ -88,8 +88,8 @@ myLogHook xmproc = dynamicLogWithPP xmobarPP
 
 
 -- Use urxvt as terminal
-myTerminal = "urxvt"
-
+myTerminal = "urxvt -e zsh"
+myFileManager = "urxvt -e ranger"
 
 -- Window focus follows mouse
 myFocusFollowsMouse = True
@@ -105,7 +105,6 @@ myBorderWidth = 4
 
 -- Defines with mod key to use (mod4mask == super)
 myModMask = mod4Mask
-
 
 
 ------------------------------------------------------------------------
@@ -138,13 +137,14 @@ myScratchpads = [NS "zeal" "zeal" (className =? "Zeal") (customFloating $ W.Rati
 -- Key bindings. Add, modify or remove key bindings here.
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
-    -- launch a terminal
+    -- Keybinding launch programs
+    -- launch a terminal (mod+shift+enter)
     [ ((modm .|. shiftMask,  xK_Return), spawn $ XMonad.terminal conf)
 
-    -- launch thunar
-    , ((modm .|. shiftMask, xK_f     ), spawn "thunar")
+    -- launch filemanager (mod+shift+f)
+    , ((modm .|. shiftMask, xK_f     ), spawn myFileManager)
 
-    -- launch rofi
+    -- launch rofi (mod+p) (mod+shift+p)
     , ((modm,               xK_p     ), spawn "rofi -show run")
     , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show window")
 
@@ -153,6 +153,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch telegram
     , ((modm,               xK_F10   ), namedScratchpadAction myScratchpads "telegram")
+
+    -- launch vimwiki
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
