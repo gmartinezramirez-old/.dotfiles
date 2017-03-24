@@ -1,12 +1,13 @@
 import System.Exit
 import Data.Maybe (Maybe, isNothing, fromJust)
-import qualified Data.List as L
-import qualified Data.Map as M
+
 import GHC.IO.Handle
 
 -- Xmonad Core
 import XMonad
 import qualified XMonad.StackSet as W
+import qualified Data.List as L
+import qualified Data.Map as M
 import XMonad.Config.Desktop
 
 -- Layouts
@@ -30,6 +31,7 @@ import XMonad.Actions.SpawnOn
 import XMonad.Actions.CycleWS
 
 -- Hooks
+import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
@@ -41,6 +43,8 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.WorkspaceCompare
 import XMonad.Util.Run
 import XMonad.Util.EZConfig
+import XMonad.Util.NamedWindows
+
 
 
 -- Xmonad entry point
@@ -83,13 +87,16 @@ myLogHook xmproc = dynamicLogWithPP xmobarPP
                      , ppCurrent = xmobarColor "#83a598" "" . wrap "[" "]"   -- #9BC1B2 #69DFFA
                      , ppTitle = xmobarColor "#d3869b" "" . shorten 50       -- #9BC1B2 #69DFFA
                      , ppSort = fmap (.namedScratchpadFilterOutWorkspace) getSortByTag
-                     , ppLayout = xmobarColor "#fabd2f" "" . myIcons
+                     , ppLayout = xmobarColor "#fabd2f" ""
                      } >> updatePointer (0.75, 0.75) (0.75, 0.75)
 
 
 -- Use urxvt as terminal
 myTerminal = "urxvt -e zsh"
 myFileManager = "urxvt -e ranger"
+myBrowser = "browser" -- chrome with WS profile dirs
+myBrowserClass = "Google-chrome-beta"
+myLauncher = "rofi -matching fuzzy -modi combi -show combi -combi-modi run,drun"
 
 -- Window focus follows mouse
 myFocusFollowsMouse = True
@@ -129,112 +136,115 @@ myFocusedBorderColor = "#83a598"
 
 
 -- Scratch Pads
-myScratchpads = [NS "zeal" "zeal" (className =? "Zeal") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)),
-                 NS "telegram" "telegram-desktop" ((className =? "Telegram") <||> (className =? "telegram-desktop") <||> (className =? "TelegramDesktop")) (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)),
-                 NS "termscratch" "termite --class=termscratch -e ~/bin/tmux-stream-dev.sh" (className =? "termscratch") (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
+--myScratchpads = [NS "zeal" "zeal" (className =? "Zeal") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)),
+--                 NS "telegram" "telegram-desktop" ((className =? "Telegram") <||> (className =? "telegram-desktop") <||> (className =? "TelegramDesktop")) (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)),
+--                 NS "termscratch" "termite --class=termscratch -e ~/bin/tmux-stream-dev.sh" (className =? "termscratch") (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
 
 
 -- Key bindings. Add, modify or remove key bindings here.
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Keybinding launch programs
-    -- launch a terminal (mod+shift+enter)
-    [ ((modm .|. shiftMask,  xK_Return), spawn $ XMonad.terminal conf)
+    -- launch a terminal (mod+enter)
+    [ ((modm, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch filemanager (mod+shift+f)
-    , ((modm .|. shiftMask, xK_f     ), spawn myFileManager)
+    , ((modm .|. shiftMask, xK_f), spawn myFileManager)
 
     -- launch rofi (mod+p) (mod+shift+p)
-    , ((modm,               xK_p     ), spawn "rofi -show run")
-    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show window")
+    , ((modm, xK_p), spawn myLauncher)
+    , ((modm .|. shiftMask, xK_p), spawn "rofi -show window")
 
     -- launch zeal
-    , ((modm,               xK_z     ), namedScratchpadAction myScratchpads "zeal")
+    --, ((modm,               xK_z     ), namedScratchpadAction myScratchpads "zeal")
 
     -- launch telegram
-    , ((modm,               xK_F10   ), namedScratchpadAction myScratchpads "telegram")
+    --, ((modm,               xK_F10   ), namedScratchpadAction myScratchpads "telegram")
 
     -- launch vimwiki
 
     -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill)
+    , ((modm, xK_c), kill)
+
+    -- close focused window
+    , ((modm, <Backspace>), kill)
 
     -- Grid Select
-    , ((modm,               xK_g     ), goToSelected def)
+    , ((modm, xK_g), goToSelected def)
 
      -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
+    , ((modm, xK_space ), sendMessage NextLayout)
 
     --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+    , ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
-    , ((modm .|. shiftMask, xK_r     ), refresh)
+    , ((modm .|. shiftMask, xK_r), refresh)
 
     -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
+    , ((modm, xK_Tab), windows W.focusDown)
 
     -- Move focus to the next window
-    , ((modm .|. controlMask,  xK_j     ), windows W.focusDown)
+    , ((modm .|. controlMask, xK_j), windows W.focusDown)
 
     -- Move focus to the previous window
-    , ((modm .|. controlMask,  xK_k     ), windows W.focusUp)
+    , ((modm .|. controlMask, xK_k), windows W.focusUp)
 
     -- Minimize selected window
-    , ((modm,               xK_m     ), withFocused minimizeWindow)
+    , ((modm, xK_m), withFocused minimizeWindow)
 
     -- Restore one minimized window
-    , ((modm .|. shiftMask, xK_m     ), sendMessage RestoreNextMinimizedWin)
+    , ((modm .|. shiftMask, xK_m), sendMessage RestoreNextMinimizedWin)
 
     -- Maximize selected window
-    , ((modm,                           xK_f     ), (sendMessage $ Toggle FULL))
+    , ((modm, xK_f), (sendMessage $ Toggle FULL))
 
     -- Swap the focused window and the master window
     , ((modm .|. controlMask, xK_Return), windows W.swapMaster)
 
     -- Move focus to the master window
-    , ((modm,                 xK_Return     ), windows W.focusMaster  )
+    , ((modm .|. shiftMask, xK_Return), windows W.focusMaster)
 
     -- Swap the focused window with the next window
-    , ((modm .|. controlMask .|. shiftMask, xK_j     ), windows W.swapDown  )
+    , ((modm .|. controlMask .|. shiftMask, xK_j), windows W.swapDown)
 
     -- Swap the focused window with the previous window
-    , ((modm .|. controlMask .|. shiftMask, xK_k     ), windows W.swapUp    )
+    , ((modm .|. controlMask .|. shiftMask, xK_k), windows W.swapUp)
 
     -- Shrink the master area
-    , ((modm .|. controlMask,               xK_h     ), sendMessage Shrink)
-    , ((modm .|. controlMask .|. shiftMask, xK_h     ), sendMessage MirrorShrink)
+    , ((modm .|. controlMask, xK_h), sendMessage Shrink)
+    , ((modm .|. controlMask .|. shiftMask, xK_h), sendMessage MirrorShrink)
 
     -- Expand the master area
-    , ((modm .|. controlMask,               xK_l     ), sendMessage Expand)
-    , ((modm .|. controlMask .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
+    , ((modm .|. controlMask, xK_l), sendMessage Expand)
+    , ((modm .|. controlMask .|. shiftMask, xK_l), sendMessage MirrorExpand)
 
     -- Toggle Brightness
-    , ((modm,               xK_minus ), spawn "light -U 5")
-    , ((modm,               xK_equal ), spawn "light -A 5")
+    , ((modm, xK_minus ), spawn "light -U 5")
+    , ((modm, xK_equal ), spawn "light -A 5")
 
     -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
+    , ((modm, xK_t), withFocused $ windows . W.sink)
 
     -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
+    , ((modm, xK_comma), sendMessage (IncMasterN 1))
 
     -- Decrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
+    , ((modm, xK_period), sendMessage (IncMasterN (-1)))
 
     -- Switch workspaces and screens
-    , ((modm,               xK_Right),  moveTo Next (WSIs hiddenNotNSP))
-    , ((modm,               xK_Left),   moveTo Prev (WSIs hiddenNotNSP))
-    , ((modm .|. shiftMask, xK_Right),  shiftTo Next (WSIs hiddenNotNSP))
-    , ((modm .|. shiftMask, xK_Left),   shiftTo Prev (WSIs hiddenNotNSP))
-    , ((modm,               xK_Down),   nextScreen)
-    , ((modm,               xK_Up),     prevScreen)
-    , ((modm .|. shiftMask, xK_Down),   shiftNextScreen)
-    , ((modm .|. shiftMask, xK_Up),     shiftPrevScreen)
+    , ((modm, xK_Right), moveTo Next (WSIs hiddenNotNSP))
+    , ((modm, xK_Left), moveTo Prev (WSIs hiddenNotNSP))
+    , ((modm .|. shiftMask, xK_Right), shiftTo Next (WSIs hiddenNotNSP))
+    , ((modm .|. shiftMask, xK_Left), shiftTo Prev (WSIs hiddenNotNSP))
+    , ((modm, xK_Down), nextScreen)
+    , ((modm, xK_Up), prevScreen)
+    , ((modm .|. shiftMask, xK_Down), shiftNextScreen)
+    , ((modm .|. shiftMask, xK_Up), shiftPrevScreen)
 
     -- Binary Space Partition Functions
-    , ((modm .|. altMask,                  xK_l     ), sendMessage $ ExpandTowards R)
-    , ((modm .|. altMask,                  xK_h     ), sendMessage $ ExpandTowards L)
+    , ((modm .|. altMask, xK_l     ), sendMessage $ ExpandTowards R)
+    , ((modm .|. altMask, xK_h     ), sendMessage $ ExpandTowards L)
     , ((modm .|. altMask,                  xK_j     ), sendMessage $ ExpandTowards D)
     , ((modm .|. altMask,                  xK_k     ), sendMessage $ ExpandTowards U)
     , ((modm .|. altMask .|. shiftMask,    xK_l     ), sendMessage $ ShrinkFrom R)
@@ -293,7 +303,7 @@ addKeys = [ ("<XF86AudioLowerVolume>"        ,spawn "pulseaudio-ctl down 10")
           , ("<XF86AudioPrev>"               ,spawn "mpc prev"     )
           , ("<XF86AudioNext>"               ,spawn "mpc next"     )
           , ("<XF86PowerOff>"                ,spawn "lock.sh" )
-          , ("<F12>"                         ,namedScratchpadAction myScratchpads "termscratch")
+          --, ("<F12>"                         ,namedScratchpadAction myScratchpads "termscratch")
           ]
 
 
@@ -325,38 +335,97 @@ myLayout = onWorkspace "6: MEDIA" simpleFloat $
 
 
 -- Defined icons for various layout types
-myIcons layout
-    | is "Minimize Spacing 5 Mirror ResizableTall"     = "<icon=/home/gilbertw1/.xmonad/icons/layout-mirror.xbm/>"
-    | is "Minimize Spacing 5 ResizableTall"            = "<icon=/home/gilbertw1/.xmonad/icons/layout-tall.xbm/>"
-    | is "Minimize Spacing 5 BSP"                      = "<icon=/home/gilbertw1/.xmonad/icons/layout-bsp.xbm/>"
-    | is "Minimize Spacing 5 Full"                     = "<icon=/home/gilbertw1/.xmonad/icons/layout-full.xbm/>"
-    | is "Simple Float"                                = "<icon=/home/gilbertw1/.xmonad/icons/layout-float.xbm/>"
-    | otherwise = "<icon=/home/gilbertw1/.xmonad/icons/layout-gimp.xbm/>"
-  where is = (`L.isInfixOf` layout)
+--myIcons layout
+--    | is "Minimize Spacing 5 Mirror ResizableTall"     = "<icon=/home/gilbertw1/.xmonad/icons/layout-mirror.xbm/>"
+--    | is "Minimize Spacing 5 ResizableTall"            = "<icon=/home/gilbertw1/.xmonad/icons/layout-tall.xbm/>"
+--    | is "Minimize Spacing 5 BSP"                      = "<icon=/home/gilbertw1/.xmonad/icons/layout-bsp.xbm/>"
+--    | is "Minimize Spacing 5 Full"                     = "<icon=/home/gilbertw1/.xmonad/icons/layout-full.xbm/>"
+--    | is "Simple Float"                                = "<icon=/home/gilbertw1/.xmonad/icons/layout-float.xbm/>"
+--    | otherwise = "<icon=F/home/gilbertw1/.xmonad/icons/layout-gimp.xbm/>"
+--  where is = (`L.isInfixOf` layout)
 
 
--- Manage hook defining various window rules
-myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore
-    , className =? "Xfce4-notifyd"  --> doIgnore
-    , className =? "Pavucontrol"    --> doFloat
-    , className =? "Peek"           --> doIgnore
-    , className =? "peek"           --> doIgnore
-    , isDialog                      --> doFloat]
-    <+> (isFullscreen --> doFullFloat)
-    <+> (namedScratchpadManageHook myScratchpads)
+---------------------------------------------------------------------------
+-- New Window Actions
+---------------------------------------------------------------------------
+
+-- https://wiki.haskell.org/Xmonad/General_xmonad.hs_config_tips#ManageHook_examples
+-- <+> manageHook defaultConfig
+
+myManageHook :: ManageHook
+myManageHook =
+        manageSpecific
+    <+> manageDocks
+    -- <+> namedScratchpadManageHook scratchpads
+    -- <+> fullscreenManageHook
     <+> manageSpawn
+    where
+        manageSpecific = composeOne
+            [ resource =? "desktop_window" -?> doIgnore
+            , resource =? "stalonetray"    -?> doIgnore
+            , resource =? "vlc"    -?> doFloat
+            , transience
+            , isBrowserDialog -?> forceCenterFloat
+            , isRole =? gtkFile  -?> forceCenterFloat
+            , isDialog -?> doCenterFloat
+            , isRole =? "pop-up" -?> doCenterFloat
+            , isInProperty "_NET_WM_WINDOW_TYPE"
+                           "_NET_WM_WINDOW_TYPE_SPLASH" -?> doCenterFloat
+            , resource =? "console" -?> tileBelowNoFocus
+            , isFullscreen -?> doFullFloat
+            , pure True -?> tileBelow ]
+        isBrowserDialog = isDialog <&&> className =? myBrowserClass
+        gtkFile = "GtkFileChooserDialog"
+        isRole = stringProperty "WM_WINDOW_ROLE"
+        -- insert WHERE and focus WHAT
+        tileBelow = insertPosition Below Newer
+        tileBelowNoFocus = insertPosition Below Older
 
 -- EwmhDesktops users should change this to ewmhDesktopsEventHook
 myEventHook = mempty
 
 
+---------------------------------------------------------------------------
+-- Custom hook helpers
+---------------------------------------------------------------------------
+
+-- from:
+-- https://github.com/pjones/xmonadrc/blob/master/src/XMonad/Local/Action.hs
+--
+-- Useful when a floating window requests stupid dimensions.  There
+-- was a bug in Handbrake that would pop up the file dialog with
+-- almost no height due to one of my rotated monitors.
+
+forceCenterFloat :: ManageHook
+forceCenterFloat = doFloatDep move
+  where
+    move :: W.RationalRect -> W.RationalRect
+    move _ = W.RationalRect x y w h
+
+    w, h, x, y :: Rational
+    w = 1/3
+    h = 1/2
+    x = (1-w)/2
+    y = (1-h)/2
+
 -- Startup hook, not doing anything
 myStartupHook = do
   setWMName "LG3D"
   startupHook desktopConfig
+
+---------------------------------------------------------------------------
+-- Urgency Hook
+---------------------------------------------------------------------------
+-- from https://pbrisbin.com/posts/using_notify_osd_for_xmonad_notifications/
+data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
+
+instance UrgencyHook LibNotifyUrgencyHook where
+    urgencyHook LibNotifyUrgencyHook w = do
+        name     <- getName w
+        Just idx <- fmap (W.findTag w) $ gets windowset
+
+        safeSpawn "notify-send" [show name, "workspace " ++ idx]
+-- cf https://github.com/pjones/xmonadrc
 
 
 -- Function that prevents cycling to workspaces available on other screens
@@ -368,3 +437,4 @@ hiddenNotNSP = do
 
 -- Alias for left alt key modifier
 altMask = mod1Mask
+
