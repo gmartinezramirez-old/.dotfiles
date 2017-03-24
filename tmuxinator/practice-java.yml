@@ -1,0 +1,11 @@
+
+
+name: practice-java
+root: ~/code/practice-java
+
+windows:
+  - editor: nvim
+  - console:
+    layour: main-vertical
+    panes:
+      - nvim
