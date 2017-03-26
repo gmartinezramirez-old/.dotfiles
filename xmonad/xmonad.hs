@@ -166,8 +166,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- close focused window
     , ((modm, xK_c), kill)
 
-    -- close focused window
-    , ((modm, <Backspace>), kill)
+    -- close focuseFd window
+    --, ((modm, <Backspace>), kill)
 
     -- Grid Select
     , ((modm, xK_g), goToSelected def)
@@ -243,38 +243,38 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_Up), shiftPrevScreen)
 
     -- Binary Space Partition Functions
-    , ((modm .|. altMask, xK_l     ), sendMessage $ ExpandTowards R)
-    , ((modm .|. altMask, xK_h     ), sendMessage $ ExpandTowards L)
-    , ((modm .|. altMask,                  xK_j     ), sendMessage $ ExpandTowards D)
-    , ((modm .|. altMask,                  xK_k     ), sendMessage $ ExpandTowards U)
-    , ((modm .|. altMask .|. shiftMask,    xK_l     ), sendMessage $ ShrinkFrom R)
-    , ((modm .|. altMask .|. shiftMask,    xK_h     ), sendMessage $ ShrinkFrom L)
-    , ((modm .|. altMask .|. shiftMask,    xK_j     ), sendMessage $ ShrinkFrom D)
-    , ((modm .|. altMask .|. shiftMask,    xK_k     ), sendMessage $ ShrinkFrom U)
-    , ((modm,                              xK_d     ), sendMessage Rotate)
-    , ((modm,                              xK_s     ), sendMessage Swap)
-    , ((modm,                              xK_n     ), sendMessage FocusParent)
-    , ((modm .|. controlMask,              xK_n     ), sendMessage SelectNode)
-    , ((modm .|. shiftMask,                xK_n     ), sendMessage MoveNode)
+    , ((modm .|. altMask, xK_l), sendMessage $ ExpandTowards R)
+    , ((modm .|. altMask, xK_h), sendMessage $ ExpandTowards L)
+    , ((modm .|. altMask, xK_j), sendMessage $ ExpandTowards D)
+    , ((modm .|. altMask, xK_k), sendMessage $ ExpandTowards U)
+    , ((modm .|. altMask .|. shiftMask, xK_l), sendMessage $ ShrinkFrom R)
+    , ((modm .|. altMask .|. shiftMask, xK_h), sendMessage $ ShrinkFrom L)
+    , ((modm .|. altMask .|. shiftMask, xK_j), sendMessage $ ShrinkFrom D)
+    , ((modm .|. altMask .|. shiftMask, xK_k), sendMessage $ ShrinkFrom U)
+    , ((modm, xK_d), sendMessage Rotate)
+    , ((modm, xK_s), sendMessage Swap)
+    , ((modm, xK_n), sendMessage FocusParent)
+    , ((modm .|. controlMask, xK_n), sendMessage SelectNode)
+    , ((modm .|. shiftMask, xK_n), sendMessage MoveNode)
 
     -- Directional Navigation & Moving of Windows
-   , ((modm,               xK_l), windowGo R False)
-   , ((modm,               xK_h), windowGo L False)
-   , ((modm,               xK_k), windowGo U False)
-   , ((modm,               xK_j), windowGo D False)
+   , ((modm, xK_l), windowGo R False)
+   , ((modm, xK_h), windowGo L False)
+   , ((modm, xK_k), windowGo U False)
+   , ((modm, xK_j), windowGo D False)
    , ((modm .|. shiftMask, xK_l), windowSwap R False)
    , ((modm .|. shiftMask, xK_h), windowSwap L False)
    , ((modm .|. shiftMask, xK_k), windowSwap U False)
    , ((modm .|. shiftMask, xK_j), windowSwap D False)
 
     -- Toggle the status bar gap
-    , ((modm              , xK_b     ), sendMessage ToggleStruts)
+    , ((modm, xK_b), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm , xK_q), spawn "xmonad --recompile; xmonad --restart")
     ]
     ++
 
@@ -293,16 +293,16 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
 
 -- Additional keybindings for media keys
-addKeys = [ ("<XF86AudioLowerVolume>"        ,spawn "pulseaudio-ctl down 10")
-          , ("<XF86AudioRaiseVolume>"        ,spawn "pulseaudio-ctl up 10"  )
-          , ("<XF86AudioMute>"               ,spawn "pulseaudio-ctl mute"   )
-          , ("<XF86MonBrightnessDown>"       ,spawn "light -U 5"            )
-          , ("<XF86MonBrightnessUp>"         ,spawn "light -A 5"            )
-          , ("<XF86AudioPlay>"               ,spawn "play-pause-mpd.sh"     )
-          , ("<XF86AudioMicMute>"            ,spawn "play-pause-mpd.sh"     )
-          , ("<XF86AudioPrev>"               ,spawn "mpc prev"     )
-          , ("<XF86AudioNext>"               ,spawn "mpc next"     )
-          , ("<XF86PowerOff>"                ,spawn "lock.sh" )
+addKeys = [ ("<XF86AudioLowerVolume>" ,spawn "pulseaudio-ctl down 10")
+          , ("<XF86AudioRaiseVolume>" ,spawn "pulseaudio-ctl up 10")
+          , ("<XF86AudioMute>",spawn "pulseaudio-ctl mute")
+          , ("<XF86MonBrightnessDown>",spawn "light -U 5")
+          , ("<XF86MonBrightnessUp>",spawn "light -A 5")
+          , ("<XF86AudioPlay>",spawn "play-pause-mpd.sh")
+          , ("<XF86AudioMicMute>",spawn "play-pause-mpd.sh")
+          , ("<XF86AudioPrev>",spawn "mpc prev")
+          , ("<XF86AudioNext>",spawn "mpc next")
+          , ("<XF86PowerOff>",spawn "lock.sh" )
           --, ("<F12>"                         ,namedScratchpadAction myScratchpads "termscratch")
           ]
 
@@ -334,17 +334,6 @@ myLayout = onWorkspace "6: MEDIA" simpleFloat $
      delta   = 3/100
 
 
--- Defined icons for various layout types
---myIcons layout
---    | is "Minimize Spacing 5 Mirror ResizableTall"     = "<icon=/home/gilbertw1/.xmonad/icons/layout-mirror.xbm/>"
---    | is "Minimize Spacing 5 ResizableTall"            = "<icon=/home/gilbertw1/.xmonad/icons/layout-tall.xbm/>"
---    | is "Minimize Spacing 5 BSP"                      = "<icon=/home/gilbertw1/.xmonad/icons/layout-bsp.xbm/>"
---    | is "Minimize Spacing 5 Full"                     = "<icon=/home/gilbertw1/.xmonad/icons/layout-full.xbm/>"
---    | is "Simple Float"                                = "<icon=/home/gilbertw1/.xmonad/icons/layout-float.xbm/>"
---    | otherwise = "<icon=F/home/gilbertw1/.xmonad/icons/layout-gimp.xbm/>"
---  where is = (`L.isInfixOf` layout)
-
-
 ---------------------------------------------------------------------------
 -- New Window Actions
 ---------------------------------------------------------------------------
@@ -364,6 +353,9 @@ myManageHook =
             [ resource =? "desktop_window" -?> doIgnore
             , resource =? "stalonetray"    -?> doIgnore
             , resource =? "vlc"    -?> doFloat
+            , name =? "File Operation Progress" -?> doFloat
+            --, role =? "bubble" -?> doFloat
+            --, role =? "pop-up" -?> doFloat
             , transience
             , isBrowserDialog -?> forceCenterFloat
             , isRole =? gtkFile  -?> forceCenterFloat
@@ -371,15 +363,15 @@ myManageHook =
             , isRole =? "pop-up" -?> doCenterFloat
             , isInProperty "_NET_WM_WINDOW_TYPE"
                            "_NET_WM_WINDOW_TYPE_SPLASH" -?> doCenterFloat
-            , resource =? "console" -?> tileBelowNoFocus
+          --  , resource =? "console" -?> tileBelowNoFocus
             , isFullscreen -?> doFullFloat
             , pure True -?> tileBelow ]
         isBrowserDialog = isDialog <&&> className =? myBrowserClass
         gtkFile = "GtkFileChooserDialog"
         isRole = stringProperty "WM_WINDOW_ROLE"
         -- insert WHERE and focus WHAT
-        tileBelow = insertPosition Below Newer
-        tileBelowNoFocus = insertPosition Below Older
+        --tileBelow = insertPosition Below Newer
+        --tileBelowNoFocus = insertPosition Below Older
 
 -- EwmhDesktops users should change this to ewmhDesktopsEventHook
 myEventHook = mempty
