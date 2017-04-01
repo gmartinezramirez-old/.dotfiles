@@ -46,7 +46,6 @@ import XMonad.Util.EZConfig
 import XMonad.Util.NamedWindows
 
 
-
 -- Xmonad entry point
 main = do
     xmproc <- spawnPipe "/usr/bin/xmobar"
@@ -95,20 +94,17 @@ myLogHook xmproc = dynamicLogWithPP xmobarPP
 myTerminal = "urxvt -e zsh"
 myFileManager = "urxvt -e ranger"
 myBrowser = "browser" -- chrome with WS profile dirs
-myBrowserClass = "Google-chrome-beta"
+myBrowserClass = "Google-chrome"
 myLauncher = "rofi -matching fuzzy -modi combi -show combi -combi-modi run,drun"
 
 -- Window focus follows mouse
 myFocusFollowsMouse = True
 
-
 -- Clicking on widow focuses and passes the click forward
 myClickJustFocuses = False
 
-
 -- Width of the window border in pixels.
 myBorderWidth = 4
-
 
 -- Defines with mod key to use (mod4mask == super)
 myModMask = mod4Mask
@@ -126,10 +122,8 @@ wsVMs = "5:VMs"
 
 myWorkspaces = [wsGEN,wsTRM,wsWRK,wsCOD,wsVMs] ++ map show [6..9]
 
-
 -- Set border color when unfocused
 myNormalBorderColor  = "#474646"
-
 
 -- Set norder color when focused
 myFocusedBorderColor = "#83a598"
@@ -196,7 +190,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Restore one minimized window
     , ((modm .|. shiftMask, xK_m), sendMessage RestoreNextMinimizedWin)
 
-    -- Maximize selected window
+    -- Maximize selected window (toogle fullscreen select window)
     , ((modm, xK_f), (sendMessage $ Toggle FULL))
 
     -- Swap the focused window and the master window
