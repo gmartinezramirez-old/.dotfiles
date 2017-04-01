@@ -44,31 +44,39 @@
 ## Features
 
 ### Keyboard setting
-* `<Caps>` remapped to `<ESC>` with [xmodmap](https://wiki.archlinux.org/index.php/xmodmap) script
+* `<Caps>` remapped to `<ESC>` and `<Win>` with [xmodmap](https://wiki.archlinux.org/index.php/xmodmap) script
 * Use of [xcape](https://github.com/alols/xcape)
 
 ### Keybinding
 
-|      | PREFIX/LEADER |   |   |   |
-|------|---------------|---|---|---|
-| TMUX |   CTRL-Space  |   |   |   |
-| I3WM |      Win      |   |   |   |
-| VIM  |     Space     |   |   |   |
-| ZSH  |               |   |   |   |
+| Program| PREFIX/LEADER/META(M) |
+|--------|-----------------------|
+| XMonad |      Win              |
+| I3WM   |      Win              |
+| TMUX   |   CTRL-Space          |
+| VIM    |     Space             |
 
+### XMonad Keybinding
+
+| Action | Keybinding              |
+|--------|-------------------------|
+| Open program     |  M-p          |
+| Change program   |     M-Ctrl-p  |
+| Minimize window  |   M-m         |
+| Restore window   |  M-Ctrl-m     |
+| Maximize window  |     M-f       |
+| Close window  |     M-Ctrl-c       |
 
 ### Vim-like keybinding programs
 * File manager:
   * [vifm](https://github.com/vifm/vifm)
   * [ranger](https://github.com/hut/ranger)
-* Mail: [neomutt](https://github.com/neomutt/neomutt)
 * PDF Reader: [Zathura](https://git.pwmt.org/pwmt/zathura)
 
 ### Shell - What's included?
 * Use of [ZSH](https://github.com/zsh-users/zsh).
 * ZSH plugin manager: 
   * [Zplug](https://github.com/b4b4r07/zplug)
-  * [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 * Use of aliases.
 * Plugins:
   * [enhancd](https://github.com/b4b4r07/enhancd):A next-generation cd command with an interactive filter.
@@ -76,7 +84,7 @@
   * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting): Fish shell like syntax highlighting for Zsh. 
   * [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions): Fish-like autosuggestions for Zsh.
   * [zsh-completions](https://github.com/zsh-users/zsh-completions): Additional completion definitions for Zsh.
-* Colorscheme: Base16-Solarized Dark [Base16-shell](https://github.com/chriskempson/base16-shell):
+* Colorscheme: Gruvbox [Gruvbox](https://github.com/chriskempson/base16-shell):
 * [fzf](https://github.com/junegunn/fzf): A command-line fuzzy finder written in Go.
 
 ### Vim - What's included?
@@ -116,26 +124,13 @@
  * [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect): Persists tmux environment across system restarts. 
  * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum): Continuous saving of tmux environment. Automatic restore when tmux is started. Automatic tmux start when computer is turned on.
 
-### i3wm - What's included?
-* Set prefix to `<Ctrl>`
+### XMonad - What's included?
+* Set prefix to `<Win>`
 * Scripts used:
  * [i3-alternating-layout](https://github.com/olemartinorg/i3-alternating-layout): Scripts to open new windows in i3wm using alternating layouts (splith/splitv) for each new window.
 
 ### Git Utilities
 * [Tig](https://github.com/jonas/tig)
-* [gitsh](https://github.com/thoughtbot/gitsh)
-
-### Git workflows
-* [git-flow](https://github.com/nvie/gitflow)
-* [gitlab-flow](https://about.gitlab.com/2014/09/29/gitlab-flow/)
-* [github-flow](https://guides.github.com/introduction/flow/)
-* [git-DMZ-flow](https://gist.github.com/djspiewak/9f2f91085607a4859a66)
-
-### TODO
-- [ ] Use [EditorConfig](https://github.com/editorconfig) for consistent coding style between IDEs and editors.
-- [ ] Use [ternjs](https://github.com/ternjs) for Javascript analyzer.
-
-<p align="right"><a href="#top">:arrow_up:</a></p>
 
 ## Installation
 
