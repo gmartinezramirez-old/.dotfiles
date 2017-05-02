@@ -128,6 +128,8 @@ alias zshconfig="e ~/dotfiles/.zshrc"
 alias zshrc="e ~/dotfiles/.zshrc"
 alias symrc="e ~/dotfiles/symbolic-link.sh"
 alias xresrc="e ~/dotfiles/.Xresources"
+alias xresources="e ~/dotfiles/.Xresources"
+alias xinitrc="e ~/.xinit"
 
 # .............................................................................
 # Reload config files
