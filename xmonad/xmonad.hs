@@ -22,7 +22,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal = "/usr/bin/xfce4-terminal"
+myTerminal = "urxvt -e zsh"
 
 -- The command to lock the screen or show the screensaver.
 myScreensaver = "/usr/bin/gnome-screensaver-command --lock"
@@ -43,7 +43,7 @@ myLauncher = "rofi -show run"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..9]
+myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9]
 
 
 ------------------------------------------------------------------------
@@ -61,16 +61,17 @@ myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..9]
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "Chromium"       --> doShift "2:web"
-    , className =? "Google-chrome"  --> doShift "2:web"
+    [ className =? "Chromium"       --> doShift "2:WEB"
+    , className =? "Google-chrome"  --> doShift "2:WEB"
+    , resource  =? "vlc"            --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Galculator"     --> doFloat
     , className =? "Steam"          --> doFloat
     , className =? "Gimp"           --> doFloat
     , resource  =? "gpicview"       --> doFloat
     , className =? "MPlayer"        --> doFloat
-    , className =? "VirtualBox"     --> doShift "4:vm"
-    , className =? "Xchat"          --> doShift "5:media"
+    , className =? "VirtualBox"     --> doShift "4:VM"
+    , className =? "Xchat"          --> doShift "5:MEDIA"
     , className =? "stalonetray"    --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
@@ -130,7 +131,7 @@ myBorderWidth = 1
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
-myModMask = mod1Mask
+myModMask = mod4Mask
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   ----------------------------------------------------------------------
@@ -170,15 +171,15 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((0, xF86XK_AudioRaiseVolume),
      spawn "amixer -q set Master 10%+")
  
-  -- Mute volume.
+  -- Mute volume: MOD+CTRL+k.
   , ((modMask .|. controlMask, xK_m),
      spawn "amixer -q set Master toggle")
 
-  -- Decrease volume.
+  -- Decrease volume: MOD+CTRL+j.
   , ((modMask .|. controlMask, xK_j),
      spawn "amixer -q set Master 10%-")
 
-  -- Increase volume.
+  -- Increase volume: MOD+CTRL+k.
   , ((modMask .|. controlMask, xK_k),
      spawn "amixer -q set Master 10%+")
 
