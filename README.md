@@ -1,5 +1,4 @@
 <!-- In this section add logo or name of the proyect -->
-<!-- <h1 align="center">dotfiles</h1> -->
 
 <p align="center">
 <img src="https://github.com/jglovier/dotfiles-logo/blob/master/dotfiles-logo.png" alt="dotfiles logo" width="400">
@@ -38,34 +37,37 @@
 ![](https://img.shields.io/badge/documentation-etc-red.svg?style=flat-square)
 
 ## Overview
+This repository contains configuration files I use on Linux systems which have been inspired by the rest of the dotfiles community.
+
+Current programs that I use: Xmonad, Xmobar, Urxvtc, Neovim, Tmux. 
 
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
 ## Features
 
 ### Keyboard setting
-* `<Caps>` remapped to `<ESC>` and `<Win>` with [xmodmap](https://wiki.archlinux.org/index.php/xmodmap) script
-* Use of [xcape](https://github.com/alols/xcape)
+* `<Caps>` remapped to `<ESC>` and `<Win>` with [xmodmap](https://wiki.archlinux.org/index.php/xmodmap) script.
+* Use of [xcape](https://github.com/alols/xcape) script.
 
 ### Keybinding
 
 | Program| PREFIX/LEADER/META(M) |
 |--------|-----------------------|
 | XMonad |      Win              |
-| I3WM   |      Win              |
-| TMUX   |   CTRL-Space          |
-| VIM    |     Space             |
+| i3wm   |      Win              |
+| Tmux   |   CTRL-Space          |
+| Vim    |     Space             |
 
 ### XMonad Keybinding
 
-| Action | Keybinding              |
-|--------|-------------------------|
-| Open program     |  M-p          |
-| Change program   |     M-Ctrl-p  |
-| Minimize window  |   M-m         |
-| Restore window   |  M-Ctrl-m     |
-| Maximize window  |     M-f       |
-| Close window  |     M-Ctrl-c       |
+| Action           | Keybinding (M=META)     |
+|------------------|-------------------------|
+| Open program     |  M-p                    |
+| Change program   |  M-Ctrl-p               |
+| Minimize window  |  M-m                    |
+| Restore window   |  M-Ctrl-m               |
+| Maximize window  |  M-f                    |
+| Close window     |  M-Ctrl-c               |
 
 ### Vim-like keybinding programs
 * File manager:
@@ -75,6 +77,7 @@
 
 ### Shell - What's included?
 * Use of [ZSH](https://github.com/zsh-users/zsh).
+  * [Config file](https://github.com/gmartinezramirez/dotfiles/blob/master/.zshrc).
 * ZSH plugin manager: 
   * [Zplug](https://github.com/b4b4r07/zplug)
 * Use of aliases.
@@ -89,6 +92,7 @@
 
 ### Vim - What's included?
 * Use of [Neovim](https://github.com/neovim/neovim)
+  * [Config file](https://github.com/gmartinezramirez/dotfiles/blob/master/.vimrc)
 * Set `<leader>` to a single `<space>`.
 * Plugin manager: [Vim-Plug](https://github.com/junegunn/vim-plug)
 * Status Bar: [Lightline](https://github.com/itchyny/lightline.vim)
@@ -137,35 +141,17 @@
 Open up a terminal, type the installation command below:
 Run the following command to set up a new machine:
 
-<table>
-    <thead>
-        <tr>
-            <th></th>
-            <th><a name="oneliner">Installation command</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong>Git</strong></td>
-            <td>git clone https://github.com/gmartinezramirez/dotfiles.git</td>
-        </tr>
-    </tbody>
-</table>
-
-- General download method using the `git` command:
-
-	```console
-	$ git clone https://github.com/gmartinezramirez/dotfiles.git ~/.dotfiles
-	$ cd ~/.dotfiles && make install
-	```
-
+```
+$ git clone https://github.com/gmartinezramirez/dotfiles.git
+$ cd ~/dotfiles && make install
+```
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
 ## Updating
 
-	```console
-	$ cd ~/.dotfiles && git update
-	```
+```	
+$ cd ~/.dotfiles && git update
+```	
 
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
