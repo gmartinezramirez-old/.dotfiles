@@ -94,8 +94,8 @@ alias halt="sudo systemctl halt"
 alias afk="i3lock -c 000000"
 
 # TODO: Aliases for copy/paste
-#alias "c=xclip"
-#alias "v=xclip -o"
+alias "c=xclip"
+alias "v=xclip -o"
 
 # .............................................................................
 # Applications
@@ -111,6 +111,7 @@ alias d="docker"
 alias g="git"
 alias mux="tmuxinator"
 alias vpn="sudo openvpn --config /home/gonzalo/config/client.ovpn"
+alias docker="sudo docker"
 #TODO: intellij alias dont work, must be refactored
 #alias intellij="~/bin/intellij/bin/./idea.sh"
 
