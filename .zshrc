@@ -179,7 +179,7 @@ alias s="g status"
 alias gignore="e .gitignore"
 alias pull="g pull"
 alias push="g push"
-alias gpm = "g push origin master"
+alias gpm="g push origin master"
 alias lg="g log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 
 
