@@ -1,37 +1,50 @@
 ;; Set personal information
-(setq user-full-name "Gonzalo Martinez Ramirez")
-(setq user-mail-adress "gmartinezramirez@gmail.com")
+;(setq user-full-name "Gonzalo Martinez Ramirez")
+;(setq user-mail-adress "gmartinezramirez@gmail.com")
 
 ;; Package Management
-(load "package")
-(package-initialize)
+(require 'package)
+(setq package-enable-at-startup nil)
+;(load "package")
+;(package-initialize)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(setq package-archive-enable-alist '(("melpa" deft magit)))
-(defvar gmartinez/packages '(magit
-			     evil
-			     moe-theme 
-			     multiple-cursors
-			     nlinum
-			     projectile
-			     smart-mode-line
-			     org)
-  "Default packages")
+(package-initialize)
 
-(defun gmartinez/packages-installed-p ()
-  (cl-loop for pkg in gmartinez/packages
-	when (not (package-installed-p pkg)) do (cl-return nil)
-	finally (cl-return t)))
-
-(unless (gmartinez/packages-installed-p)
-  (message "%s" "Refreshing package database...")
+(unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (dolist (pkg gmartinez/packages)
-    (when (not (package-installed-p pkg))
-      (package-install pkg))))
+  (package-install 'use-package))
 
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
+
+;(setq package-archive-enable-alist '(("melpa" deft magit)))
+;(defvar gmartinez/packages '(magit
+;			     evil
+;			     moe-theme 
+;			     multiple-cursors
+;			     nlinum
+;			     projectile
+;			     smart-mode-line
+;			     org)
+;  "Default packages")
+
+;(defun gmartinez/packages-installed-p ()
+;  (cl-loop for pkg in gmartinez/packages
+;	when (not (package-installed-p pkg)) do (cl-return nil)
+;	finally (cl-return t)))
+;
+;(unless (gmartinez/packages-installed-p)
+;  (message "%s" "Refreshing package database...")
+;  (package-refresh-contents)
+;  (dolist (pkg gmartinez/packages)
+;    (when (not (package-installed-p pkg))
+;      (package-install pkg))))
+;
 ;; ;; Start-up options
 ;; Splash screen, Default org-mode
 (setq inhibit-splash-screen t
@@ -52,7 +65,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (magit))))
+ '(package-selected-packages (quote (company magit))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -64,16 +77,33 @@
 (setq make-backup-files nil)
 
 ;; Automatically switch between moe-dark and moe-light according to the time
-(require 'moe-theme-switcher)
+;(require 'moe-theme-switcher)
 ;; Santiago, Chile
-(setq calendar-latitude -33.447487)
-(setq calendar-longitude -70.673676)
+;(setq calendar-latitude -33.447487)
+;(setq calendar-longitude -70.673676)
 
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-cl" 'org-agenda)
-(setq org-log-done t)
-(setq org-directory "~/Dropbox/notes/")
+;(require 'org)
+;(define-key global-map "\C-cl" 'org-store-link)
+;(define-key global-map "\C-cl" 'org-agenda)
+;(setq org-log-done t)
+;(setq org-directory "~/Dropbox/notes/")
 
 ;; Plugins config
-(evil-mode t)
+;(evil-mode t)
+
+(use-package org-bullets
+	:ensure t
+	:config
+	(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package company
+	:ensure t
+	:defer t
+	:init (global-company-mode))
+
+(use-package evil
+	:ensure t
+	:config
+	(evil-mode 1)
+	;; More configuration goes here
+	)
