@@ -209,5 +209,8 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export MYNVIMRC="~/.config/nvim/init.vim"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
+export INFOPATH=/usr/local/texlive/2017/texmf/doc/info:$INFOPATH
+export MANPATH=/usr/local/texlive/2017/texmf/doc/man:$MANPATH
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
