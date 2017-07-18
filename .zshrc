@@ -97,6 +97,11 @@ alias afk="i3lock -c 000000"
 alias "c=xclip"
 alias "v=xclip -o"
 
+# Docker aliases
+alias dl='docker ps -l -q'
+alias de="env | grep DOCKER_"
+alias dm-list="docker-machine ls"
+
 # .............................................................................
 # Applications
 # .............................................................................
@@ -131,6 +136,7 @@ alias symrc="e ~/dotfiles/symbolic-link.sh"
 alias xresrc="e ~/dotfiles/.Xresources"
 alias xresources="e ~/dotfiles/.Xresources"
 alias xinitrc="e ~/.xinit"
+alias wiki= "~/Dropbox/wiki/
 
 # .............................................................................
 # Reload config files
@@ -165,7 +171,7 @@ alias code= "cd ~/code"
 alias c="cd ~/code"
 alias dl="cd ~/Descargas"
 alias README= "e README.md"
-alias dropbox="cd ~/Dropbox"
+#alias dropbox="cd ~/Dropbox"
 alias dbox="cd ~/Dropbox"
 
 # .............................................................................
