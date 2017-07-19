@@ -136,7 +136,8 @@ alias symrc="e ~/dotfiles/symbolic-link.sh"
 alias xresrc="e ~/dotfiles/.Xresources"
 alias xresources="e ~/dotfiles/.Xresources"
 alias xinitrc="e ~/.xinit"
-alias wiki= "~/Dropbox/wiki/
+alias wiki="vim ~/Dropbox/wiki/index.wiki"
+alias wikidir="cd ~/Dropbox/wiki/"
 
 # .............................................................................
 # Reload config files

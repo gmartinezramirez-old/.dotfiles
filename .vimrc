@@ -166,7 +166,7 @@ set background=dark
 " -----------------------------------------------------------------------------
 "  Filetype
 " -----------------------------------------------------------------------------
-autocmd Filetype gitcommit setlocal spell textwidth=72 
+autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " -----------------------------------------------------------------------------
 "  Plugins
@@ -206,6 +206,8 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 
+Plug 'vimwiki/vimwiki'
+
 call plug#end()
 " .............................................................................
 "  Plugins Configuration
@@ -217,4 +219,10 @@ let g:lightline.colorscheme = 'gruvbox'
 colorscheme gruvbox
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark= 'hard'
+
+" Vimwiki config
+let wiki = {}
+let g:vimwikidir = $HOME . "/Dropbox/wiki"
+let wiki.path = g:vimwikidir
+let g:vimwiki_list = [wiki]
 
