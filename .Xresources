@@ -125,3 +125,13 @@ URxvt*cursorColor: #d1d4e0
 URxvt*scrollColor: #d1d4e0
 URxvt*highlightColor: #252936
 URxvt*highlightTextColor: #C0C5CE
+
+rofi.color-enabled: true
+rofi.font: Hack Bold 16
+rofi.modi: window,run,ssh
+rofi.opacity: 90
+
+rofi.kb-remove-to-eol: Control+Shift+k
+rofi.kb-accept-entry: Control+m,Return,KP_Enter
+rofi.kb-row-up: Up,Control+p,Shift+Tab,Shift+ISO_Left_Tab,Control+k
+rofi.kb-row-down: Down,Control+n,Control+j

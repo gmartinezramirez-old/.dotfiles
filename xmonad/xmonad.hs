@@ -1,20 +1,28 @@
 import System.IO
 import System.Exit
 import XMonad
+
+import Graphics.X11.ExtraTypes.XF86
+
+import qualified XMonad.StackSet as W
+import qualified Data.Map        as M
+import qualified Data.List as L 
+
+import XMonad.Actions.UpdatePointer
+
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
+
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
+
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
-import Graphics.X11.ExtraTypes.XF86
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
 
 
 ------------------------------------------------------------------------
@@ -37,6 +45,7 @@ myScreenshot = "screenshot"
 -- The command to use as a launcher, to launch commands that don't have
 -- preset keybindings.
 myLauncher = "rofi -show run"
+myLauncherWindow = "rofi -show window"
 
 
 ------------------------------------------------------------------------
@@ -116,40 +125,40 @@ myFocusedBorderColor = "#51afef"
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 tabConfig = defaultTheme {
-    activeBorderColor = "#7C7C7C",
-    activeTextColor = "#CEFFAC",
+    activeBorderColor = "#51afef",
+    activeTextColor = "#51afef",
     activeColor = "#000000",
     inactiveBorderColor = "#7C7C7C",
     inactiveTextColor = "#EEEEEE",
-    inactiveColor = "#000000"
+    inactiveColor = "#2C323C"
 }
 
 -- Color of current window title in xmobar.
-xmobarTitleColor = "#FFB6B0"
+--xmobarTitleColor = "#FFB6B0"
 
 -- Color of current workspace in xmobar.
-xmobarCurrentWorkspaceColor = "#CEFFAC"
+--xmobarCurrentWorkspaceColor = "#CEFFAC"
 
 -- Width of the window border in pixels.
 myBorderWidth = 4
 
 -- Based on solarized (testing)
-base03  = "#002b36"
-base02  = "#073642"
-base01  = "#586e75"
-base00  = "#657b83"
-base0   = "#839496"
-base1   = "#93a1a1"
-base2   = "#eee8d5"
-base3   = "#fdf6e3"
-yellow  = "#b58900"
-orange  = "#cb4b16"
-red     = "#dc322f"
-magenta = "#d33682"
-violet  = "#6c71c4"
-blue    = "#268bd2"
-cyan    = "#2aa198"
-green   = "#859900"
+--base03  = "#002b36"
+--base02  = "#073642"
+--base01  = "#586e75"
+--base00  = "#657b83"
+--base0   = "#839496"
+--base1   = "#93a1a1"
+--base2   = "#eee8d5"
+--base3   = "#fdf6e3"
+--yellow  = "#b58900"
+--orange  = "#cb4b16"
+--red     = "#dc322f"
+--magenta = "#d33682"
+--violet  = "#6c71c4"
+--blue    = "#268bd2"
+--cyan    = "#2aa198"
+--green   = "#859900"
 
 ------------------------------------------------------------------------
 -- Key bindings
@@ -363,11 +372,24 @@ main = do
             ppOutput = hPutStrLn xmproc
             , ppCurrent = xmobarColor "#51afef" "" . wrap "[" "]"   -- #9BC1B2 #69DFFA
             , ppTitle = xmobarColor "#c678dd" "" . shorten 50       -- #9BC1B2 #69DFFA
-            , ppSep = "   "
+            , ppLayout = xmobarColor "#ECBE7B" "" . myIcons
       }
       , manageHook = manageDocks <+> myManageHook
       , startupHook = setWMName "LG3D"
   }
+
+-- Defined icons for various layout types
+myIcons layout
+    | is "Mirror Tall"              = "<icon=/home/gonzalo/.xmonad/icons/layout-mirror.xbm/>"
+    | is "Tall"                     = "<icon=/home/gonzalo/.xmonad/icons/layout-tall.xbm/>"
+    | is "Spiral"                   = "<icon=/home/gonzalo/.xmonad/icons/layout-bsp.xbm/>"
+    | is "Full"                     = "<icon=/home/gonzalo/.xmonad/icons/layout-full.xbm/>"
+    | is "Simple Float"             = "<icon=/home/gonzalo/.xmonad/icons/layout-float.xbm/>"
+    | is "ThreeCol"                 = "<icon=/home/gonzalo/.xmonad/icons/layout-threecol.xbm/>"
+    | is "Tabbed Simplest"          = "<icon=/home/gonzalo/.xmonad/icons/layout-tabbed.xbm/>"
+    | otherwise                     = "<icon=/home/gonzalo/.xmonad/icons/layout-gimp.xbm/>"
+  where is = (`L.isInfixOf` layout)
+
 
 
 ------------------------------------------------------------------------
