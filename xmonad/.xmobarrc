@@ -1,22 +1,35 @@
 -- This is setup for dual 1920x1080 monitors, with the right monitor as primary
 Config {
-    font = "xft:Fixed-8",
-    borderColor = "black",
-    border = TopB,
-    bgColor = "#000000",
-    fgColor = "#ffffff",
-    position = TopW L 100,
-    lowerOnStart = True,
-    commands = [
-        Run MultiCpu ["-t","Cpu: <total0> <total1> <total2> <total3>","-L","30","-H","60","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC","-w","3"] 10,
-        Run Memory ["-t","Mem: <usedratio>%","-H","8192","-L","4096","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10,
-        Run Swap ["-t","Swap: <usedratio>%","-H","1024","-L","512","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10,
-        Run Network "em1" ["-t","Net: <rx>, <tx>","-H","200","-L","10","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10,
-        Run Date "%a %b %_d %Y %H:%M:%S" "date" 10,
-        Run StdinReader
-    ],
-    sepChar = "%",
-    alignSep = "}{",
-    template = "%StdinReader% }{ %multicpu%   %memory%   %swap%   %em1%   <fc=#FFFFCC>%date%</fc>"
+    font = "xft:Hack:size=8:bold:antialias=true"
+    , bgColor = "#282c34"
+    , fgColor = "#bbc2cf"
+    , position = TopW L 100
+    , lowerOnStart = True
+    , commands = [
+        Run Cpu ["-t","<fc=#a9a1e1><icon=/home/gonzalo/.xmonad/icons/cpu.xbm/></fc> <total>%","-L","3","-H","50","-l","#ebdbb2","-n","#ebdbb2","-h","#fb4934"] 50
+        , Run Memory ["-t","<fc=#51afef><icon=/home/gonzalo/.xmonad/icons/mem.xbm/></fc> <usedratio>%","-H","80","-L","10","-l","#ebdbb2","-n","#ebdbb2","-h","#fb4934"] 50
+        , Run Network "em1" ["-t","Net: <rx>, <tx>","-H","200","-L","10","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10
+        , Run Date "%a %b %_d %k:%M" "date" 300
+		-- Battery Monitor
+		, Run BatteryP       [ "BAT0" ] 
+    	[ "--template" , "<fc=#B1DE76><icon=/home/gonzalo/.xmonad/icons/battery.xbm/></fc> <acstatus>"
+    	, "--Low"      , "10"        -- units: %
+    	, "--High"     , "80"        -- units: %
+    	, "--low"      , "#fb4934" -- #ff5555
+    	, "--normal"   , "#bbc2cf"
+    	, "--high"     , "#98be65"
+    	, "--" -- battery specific options
+           -- discharging status
+           , "-o"   , "<left>% (<timeleft>)"
+           -- AC "on" status
+           , "-O"   , "<left>% (<fc=#98be65>Charging</fc>)" -- 50fa7b
+           -- charged status
+           , "-i"   , "<fc=#98be65>Charged</fc>"
+    	] 50        
+        , Run StdinReader
+    ]
+    , sepChar = "%"
+    , alignSep = "}{"
+    , template = "%StdinReader% }{ %cpu% | %memory% | %battery% | %em1% | <fc=#ECBE7B>%date%</fc>" -- #69DFFA
 }
 

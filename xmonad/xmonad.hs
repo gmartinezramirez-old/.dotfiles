@@ -43,7 +43,7 @@ myLauncher = "rofi -show run"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9]
+myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9] ++ ["NSP"]
 
 
 ------------------------------------------------------------------------
@@ -65,6 +65,7 @@ myManageHook = composeAll
     , className =? "Google-chrome"  --> doShift "2:WEB"
     , resource  =? "vlc"            --> doFloat
     , resource  =? "desktop_window" --> doIgnore
+    , resource  =? "kdesktop"       --> doIgnore
     , className =? "Galculator"     --> doFloat
     , className =? "Steam"          --> doFloat
     , className =? "Gimp"           --> doFloat
@@ -73,6 +74,9 @@ myManageHook = composeAll
     , className =? "VirtualBox"     --> doShift "4:VM"
     , className =? "Xchat"          --> doShift "5:MEDIA"
     , className =? "stalonetray"    --> doIgnore
+    , className =? "Peek"           --> doIgnore
+    , className =? "peek"           --> doIgnore
+    , isDialog                      --> doCenterFloat
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
 
@@ -98,10 +102,17 @@ myLayout = avoidStruts (
 
 ------------------------------------------------------------------------
 -- Colors and borders
--- Currently based on the ir_black theme.
+-- Currently based on the doom emacs theme.
 --
-myNormalBorderColor  = "#7c7c7c"
-myFocusedBorderColor = "#ffb6b0"
+
+-- Set border color when unfocused
+myNormalBorderColor  = "#2C323C"
+-- Set norder color when focused
+myFocusedBorderColor = "#51afef"
+
+--OLD: based ir_black theme
+--myNormalBorderColor  = "#7c7c7c"
+--myFocusedBorderColor = "#ffb6b0"
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 tabConfig = defaultTheme {
@@ -120,8 +131,25 @@ xmobarTitleColor = "#FFB6B0"
 xmobarCurrentWorkspaceColor = "#CEFFAC"
 
 -- Width of the window border in pixels.
-myBorderWidth = 1
+myBorderWidth = 4
 
+-- Based on solarized (testing)
+base03  = "#002b36"
+base02  = "#073642"
+base01  = "#586e75"
+base00  = "#657b83"
+base0   = "#839496"
+base1   = "#93a1a1"
+base2   = "#eee8d5"
+base3   = "#fdf6e3"
+yellow  = "#b58900"
+orange  = "#cb4b16"
+red     = "#dc322f"
+magenta = "#d33682"
+violet  = "#6c71c4"
+blue    = "#268bd2"
+cyan    = "#2aa198"
+green   = "#859900"
 
 ------------------------------------------------------------------------
 -- Key bindings
@@ -182,22 +210,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Increase volume: MOD+CTRL+k.
   , ((modMask .|. controlMask, xK_k),
      spawn "amixer -q set Master 10%+")
-
-  -- Audio previous.
-  , ((0, 0x1008FF16),
-     spawn "")
-
-  -- Play/pause.
-  , ((0, 0x1008FF14),
-     spawn "")
-
-  -- Audio next.
-  , ((0, 0x1008FF17),
-     spawn "")
-
-  -- Eject CD tray.
-  , ((0, 0x1008FF2C),
-     spawn "eject -T")
 
   --------------------------------------------------------------------
   -- "Standard" xmonad key bindings
@@ -349,9 +361,9 @@ main = do
   xmonad $ defaults {
       logHook = dynamicLogWithPP $ xmobarPP {
             ppOutput = hPutStrLn xmproc
-          , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
-          , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
-          , ppSep = "   "
+            , ppCurrent = xmobarColor "#51afef" "" . wrap "[" "]"   -- #9BC1B2 #69DFFA
+            , ppTitle = xmobarColor "#c678dd" "" . shorten 50       -- #9BC1B2 #69DFFA
+            , ppSep = "   "
       }
       , manageHook = manageDocks <+> myManageHook
       , startupHook = setWMName "LG3D"

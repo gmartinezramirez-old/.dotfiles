@@ -119,6 +119,7 @@ alias vpn="sudo openvpn --config /home/gonzalo/config/client.ovpn"
 alias docker="sudo docker"
 #TODO: intellij alias dont work, must be refactored
 #alias intellij="~/bin/intellij/bin/./idea.sh"
+alias start-dropbox="~/.dropbox-dist/dropboxd"
 
 # .............................................................................
 # Config files
