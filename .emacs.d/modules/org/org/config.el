@@ -5,7 +5,7 @@
   (cl-pushnew (file-name-directory path) load-path :test #'equal))
 
 ;; Custom variables
-(defvar +org-dir (expand-file-name "~/work/org/")
+(defvar +org-dir (expand-file-name "~/Dropbox/wiki")
   "The directory where org files are kept.")
 (defvaralias 'org-directory '+org-dir)
 
