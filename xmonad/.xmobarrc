@@ -10,8 +10,11 @@ Config {
         		 , Run Network "em1" ["-t","Net: <rx>, <tx>","-H","200","-L","10","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10
         		 , Run Date "%a %b %_d %k:%M" "date" 300
                  , Run CoreTemp ["-t", "<fc=#CDB464><icon=/home/gonzalo/.xmonad/icons/temp.xbm/></fc> <core0>°", "-L", "30", "-H", "75", "-l", "lightblue", "-n", "#bbc2cf", "-h", "#aa4450"] 50
-        		--, Run Volume "default" "Master" ["-t", "<volume>% <status>"] 5
+                --, Run Com ["-c", "/home/.xmonad/get-volume.sh"]  "myvolume" 1,
+                --, Run Volume "default" "Master" ["-t", "<volume>% <status>"] 5
 				-- Battery Monitor
+				, Run Com "/home/gonzalo/.xmonad/getvolume-in-bar.sh" [] "volume" 2
+				--, Run Com "/home/gonzalo/.xmonad/getvolume.sh" [] "volume" 2
 				, Run BatteryP       [ "BAT0" ] 
     				[ "--template" , "<fc=#B1DE76><icon=/home/gonzalo/.xmonad/icons/battery.xbm/></fc> <acstatus>"
     				, "--Low"      , "10"        -- units: %
@@ -31,6 +34,6 @@ Config {
     ]
     , sepChar = "%"
     , alignSep = "}{"
-    , template = "%StdinReader% }{ %cpu% | %coretemp% |%memory% | %battery% | %em1% | <fc=#ECBE7B>%date%</fc>"   -- #69DFFA
+    , template = "%StdinReader% }{%volume% | %cpu% | %coretemp% |%memory% | %battery% | %em1% | <fc=#ECBE7B>%date%</fc>"   -- #69DFFA
 }
 
