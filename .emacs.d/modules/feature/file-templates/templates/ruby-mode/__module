@@ -1,0 +1,12 @@
+# `(progn
+     (setq-local pkgs (split-string (s-chop-prefix (concat (doom-project-root) "lib/") (file-name-sans-extension buffer-file-name)) "/" t))
+     (setq-local pkgs-p (eq (length pkgs) 1))
+     (setq-local pkg-module (s-replace " " "::" (s-titleized-words (if pkgs-p (car pkgs) (string-join (butlast pkgs) " ")))))
+
+     (concat "lib/" (file-name-nondirectory buffer-file-name)))`
+
+module `pkg-module`
+`(when pkgs-p "  VERSION='0.0.1'\n\n")``(concat "  class " (if pkgs-p "<< self" (s-capitalize (car (last pkgs)))))`
+    `%`${0:# Code here}
+  end
+end
