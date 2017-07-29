@@ -10,7 +10,7 @@ Config {
     -- Layout
     , sepChar = "%"   -- delineator between plugin names and straight text
     , alignSep = "}{" -- separator between left-right alignment
-    , template = "%StdinReader% }{%battery% | %volume% | %coretemp% | %cpu% | %memory% | %em1% | <fc=#ECBE7B>%date%</fc>"
+    , template = "%StdinReader% }{ | %coretemp% | %cpu% | %memory% | %em1% | %volume% | %battery% | <fc=#ECBE7B>%date%</fc>"
 
    	-- General behavior
    	, lowerOnStart = True     -- send to bottom of window stack on start
@@ -44,40 +44,40 @@ Config {
     			  , "--normal"   , "#bbc2cf"
     			  , "--high"     , "#fb4934"] 50
         
-        , Run Com "/home/gonzalo/.xmonad/getvolume-in-bar.sh" [] "volume" 2
+      , Run Com "/home/gonzalo/.xmonad/getvolume-in-bar.sh" [] "volume" 2
 
-        -- memory usage monitor
-        , Run Memory [ "--template" , "<fc=#51afef><icon=/home/gonzalo/.xmonad/icons/mem.xbm/></fc> <usedratio>%"
+      -- memory usage monitor
+      , Run Memory [ "--template" , "<fc=#51afef><icon=/home/gonzalo/.xmonad/icons/mem.xbm/></fc> <usedratio>%"
           			 , "--Low"      , "15"
           			 , "--High"     , "80"
           			 , "--low"      , "#98be65"
           			 , "--normal"   , "#bbc2cf"
           			 , "--high"     , "#fb4934"] 50
 
-         , Run Network "em1" [ "--template" , "Net: <rx>, <tx>"
+      , Run Network "em1" [ "--template" , "Net: <rx>, <tx>"
          					 , "--High"     , "200"
          					 , "--Low"      , "10"
          					 , "--high"     , "#FFB6B0"
          					 , "--low"      , "#CEFFAC"
          					 , "--normal"   , "#FFFFCC"] 10
         		 
-        , Run Date "%a %b %_d %k:%M" "date" 300
+      , Run Date "%a %b %_d %k:%M" "date" 300
         
-        , Run CoreTemp [ "--template", "<fc=#CDB464><icon=/home/gonzalo/.xmonad/icons/temp.xbm/></fc> <core0>°"
+      , Run CoreTemp [ "--template", "<fc=#CDB464><icon=/home/gonzalo/.xmonad/icons/temp.xbm/></fc> <core0>°"
         			   , "--Low"     , "30"
         			   , "--High"    , "75"
         			   , "--low"     , "lightblue"
         			   , "--normal"  , "#bbc2cf"
         			   , "--high"    , "#aa4450"] 50
 		
-		, Run BatteryP [ "BAT0" ] 
-    				   [ "--template" , "<fc=#B1DE76><icon=/home/gonzalo/.xmonad/icons/battery.xbm/></fc> <acstatus>"
-    					 , "--Low"    , "15"        -- units: %
-    					 , "--High"   , "80"        -- units: %
-    					 , "--low"    , "#fb4934"   -- #ff5555
-    					 , "--normal" , "#bbc2cf"
-    					 , "--high"   , "#98be65"
-    					 , "--" -- battery specific options
+		  , Run BatteryP [ "BAT0" ] 
+    				         [ "--template" , "<fc=#B1DE76><icon=/home/gonzalo/.xmonad/icons/battery.xbm/></fc> <acstatus>"
+    					       , "--Low"    , "15"        -- units: %
+    					       , "--High"   , "80"        -- units: %
+    					       , "--low"    , "#fb4934"   -- #ff5555
+    					       , "--normal" , "#bbc2cf"
+    					       , "--high"   , "#98be65"
+    					       , "--" -- battery specific options
            				 -- discharging status
            				 , "-o"       , "<left>% (<timeleft>)"
            				 -- AC "on" status

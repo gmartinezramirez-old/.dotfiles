@@ -18,6 +18,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 
 -- Layout
+import XMonad.Layout.SimpleFloat
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
@@ -27,7 +28,10 @@ import XMonad.Layout.ThreeColumns
 -- Utils
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Scratchpad
+import XMonad.Util.WorkspaceCompare
+
 
 ------------------------------------------------------------------------
 -- Terminal
@@ -60,7 +64,7 @@ myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9] +
 
 
 -- -- Scratch Pads
--- myScratchpads = [NS "termscratch" "urxvt --class=termscratch -e ranger" (className =? "termscratch") (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
+myScratchpads = [NS "termscratch" "urxvt --class=termscratch -e ranger" (className =? "termscratch") (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
 
 
 ------------------------------------------------------------------------
@@ -306,6 +310,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Restart xmonad.
   , ((modMask, xK_q),
      restart "xmonad" True)
+
+  , ((modMask, xK_s),
+     namedScratchpadAction myScratchpads "termscratch")
   ]
   ++
 
