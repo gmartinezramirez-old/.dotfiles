@@ -1,0 +1,33 @@
+
+#!/bin/bash
+#
+# DESCRIPTION:
+# 
+#   Print the WIFI connection status.
+#
+# DEPENDENCIES:
+#
+#   networkmanager
+#
+# Author: clyde80
+# Website: https://github.com/clyde80/i3-configuration
+# Created On: December 22, 2016
+# Updated On: February 22, 2017
+#
+# To file a bug report, create an issue on GitHub:
+# https://github.com/clyde80/i3-configuration/issues
+#
+# To submit a bug fix, create a pull request on the working branch:
+# https://github.com/clyde80/i3-configuration/tree/working
+
+output=$(nmcli -t -f active,ssid dev wifi | grep "yes")
+if [[ ! -z "$output" ]]; then
+    echo "WIFI: OK"
+else
+    output=$(netctl list | grep "*" | grep -o -E "[a-zA-Z0-9-]")
+    if [[ ! -z "$output" ]]; then
+        echo "WIFI: OK"
+    else
+        echo "WIFI: NOT OK"
+    fi
+fi
