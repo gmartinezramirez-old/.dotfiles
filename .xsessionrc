@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Load resources
+
+xrdb -merge .Xresources
+
+# Set up an icon tray
+stalonetray &
+
+# Fire up apps
+
+# Start udiskie to handle media
+udiskie &
+xscreensaver -no-splash &
+xfce4-power-manager &
+
+# TODO: ADD dropbox
+
+if [ -x /usr/bin/nm-applet ] ; then
+   nm-applet --sm-disable &
+fi
+
+exec xmonad
