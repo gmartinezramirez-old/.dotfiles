@@ -64,8 +64,18 @@ myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9] +
 
 
 -- -- Scratch Pads
-myScratchpads = [NS "termscratch" "urxvt --class=termscratch -e ranger" (className =? "termscratch") (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
+myScratchpads = [NS "termscratch" "urxvt --class=termscratch -e ranger" (className =? "termscratch") (customFloating $ W.RationalRect 0.15 0.2 0.7 0.6)]
 
+-- (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
+--(customFloating $ W.RationalRect 0.15 0.2 0.7 0.6)]
+
+-- Scratchpad                       
+--manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+--    where
+--    h = 0.333   -- terminal height
+--    w = 1       -- terminal width
+--    t = 1 - h   -- distance from top edge
+--    l = 1 - w   -- distance from left edge
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -154,23 +164,6 @@ tabConfig = defaultTheme {
 -- Width of the window border in pixels.
 myBorderWidth = 4
 
--- Based on solarized (testing)
---base03  = "#002b36"
---base02  = "#073642"
---base01  = "#586e75"
---base00  = "#657b83"
---base0   = "#839496"
---base1   = "#93a1a1"
---base2   = "#eee8d5"
---base3   = "#fdf6e3"
---yellow  = "#b58900"
---orange  = "#cb4b16"
---red     = "#dc322f"
---magenta = "#d33682"
---violet  = "#6c71c4"
---blue    = "#268bd2"
---cyan    = "#2aa198"
---green   = "#859900"
 
 ------------------------------------------------------------------------
 -- Key bindings
@@ -417,20 +410,22 @@ myIcons layout
 --
 defaults = defaultConfig {
     -- simple stuff
-    terminal           = myTerminal,
-    focusFollowsMouse  = myFocusFollowsMouse,
-    borderWidth        = myBorderWidth,
-    modMask            = myModMask,
-    workspaces         = myWorkspaces,
-    normalBorderColor  = myNormalBorderColor,
-    focusedBorderColor = myFocusedBorderColor,
+    terminal           = myTerminal
+    , focusFollowsMouse  = myFocusFollowsMouse
+    , borderWidth        = myBorderWidth
+    , modMask            = myModMask
+    , workspaces         = myWorkspaces
+    , normalBorderColor  = myNormalBorderColor
+    , focusedBorderColor = myFocusedBorderColor
 
     -- key bindings
-    keys               = myKeys,
-    mouseBindings      = myMouseBindings,
+    , keys               = myKeys
+    , mouseBindings      = myMouseBindings
 
     -- hooks, layouts
-    layoutHook         = smartBorders $ myLayout,
-    manageHook         = myManageHook,
-    startupHook        = myStartupHook
+    , layoutHook         = smartBorders $ myLayout
+    , manageHook         = myManageHook
+    -- TODO: FIX THIS
+    --, manageHook         = myManageHook <+> manageScratchPad <+> namedScratchpadManageHook mynameScratchpads <+> placeHook (smart (0.5,0.5))
+    , startupHook        = myStartupHook
 }

@@ -5,12 +5,12 @@ Config {
     font = "xft:Hack:size=7:bold:antialias=true"
     , bgColor = "#282c34"
     , fgColor = "#bbc2cf"
-    , position = TopW L 100
+    , position = TopW L 92
 
     -- Layout
     , sepChar = "%"   -- delineator between plugin names and straight text
     , alignSep = "}{" -- separator between left-right alignment
-    , template = "%StdinReader% }{ | %coretemp% | %cpu% | %memory% | %em1% | %volume% | %battery% | <fc=#ECBE7B>%date%</fc>"
+    , template = "%StdinReader% }{ | %coretemp% | %cpu% | %memory% | %volume% | %battery% | <fc=#ECBE7B>%date%</fc>"
 
    	-- General behavior
    	, lowerOnStart = True     -- send to bottom of window stack on start
