@@ -1,0 +1,22 @@
+colors_enabled = yes
+empty_tag_color = 13:b
+header_window_color = 13
+volume_color = 12:b
+state_line_color = 13:b
+state_flags_color = 13:b
+main_window_color = 13
+color1 = 13:b
+color2 = 13:b
+progressbar_color = 13:b
+progressbar_elapsed_color = 11:b
+statusbar_color = 13
+statusbar_time_color = 6
+player_state_color = 14:b
+alternative_ui_separator_color = 13:b
+window_border_color = 13
+active_window_border = 13
+
+browser_playlist_prefix = "$(13)playlist$(12) "
+current_item_prefix = $(green)$r
+
+song_columns_list_format = (20)[14]{a} (6f)[12]{NE} (50)[13]{t|f:Title} (20)[6]{b} (7f)[11]{l}
