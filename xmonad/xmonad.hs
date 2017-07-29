@@ -8,22 +8,26 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import qualified Data.List as L 
 
+-- Actions
 import XMonad.Actions.UpdatePointer
 
+-- Hooks
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 
+-- Layout
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 
+-- Utils
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
-
+import XMonad.Util.Scratchpad
 
 ------------------------------------------------------------------------
 -- Terminal
@@ -53,6 +57,10 @@ myLauncherWindow = "rofi -show window"
 -- The default number of workspaces (virtual screens) and their names.
 --
 myWorkspaces = ["1:TERM","2:WEB","3:CODE","4:VM","5:MEDIA"] ++ map show [6..9] ++ ["NSP"]
+
+
+-- -- Scratch Pads
+-- myScratchpads = [NS "termscratch" "urxvt --class=termscratch -e ranger" (className =? "termscratch") (customFloating $ W.RationalRect (1/10) (1/10) (4/5) (4/5))]
 
 
 ------------------------------------------------------------------------
@@ -190,7 +198,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
   -- Take a selective screenshot using the command specified by mySelectScreenshot.
   , ((modMask .|. shiftMask, xK_p),
-     spawn mySelectScreenshot)
+     spawn myLauncherWindow)
 
   -- Take a full screenshot using the command specified by myScreenshot.
   , ((modMask .|. controlMask .|. shiftMask, xK_p),

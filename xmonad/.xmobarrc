@@ -1,39 +1,91 @@
 -- This is setup for dual 1920x1080 monitors, with the right monitor as primary
 Config {
+
+	-- Appearance
     font = "xft:Hack:size=7:bold:antialias=true"
     , bgColor = "#282c34"
     , fgColor = "#bbc2cf"
     , position = TopW L 100
-    , lowerOnStart = True
-    , commands = [ Run Cpu ["-t", "<fc=#a9a1e1><icon=/home/gonzalo/.xmonad/icons/cpu.xbm/></fc> <total>%", "-L","3","-H","50","-l","#bbc2cf","-n","#bbc2cf","-h","#fb4934"] 50
-        		 , Run Memory ["-t","<fc=#51afef><icon=/home/gonzalo/.xmonad/icons/mem.xbm/></fc> <usedratio>%","-H","80","-L","10","-l","#bbc2cf","-n","#bbc2cf","-h","#fb4934"] 50
-        		 , Run Network "em1" ["-t","Net: <rx>, <tx>","-H","200","-L","10","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10
-        		 , Run Date "%a %b %_d %k:%M" "date" 300
-                 , Run CoreTemp ["-t", "<fc=#CDB464><icon=/home/gonzalo/.xmonad/icons/temp.xbm/></fc> <core0>°", "-L", "30", "-H", "75", "-l", "lightblue", "-n", "#bbc2cf", "-h", "#aa4450"] 50
-                --, Run Com ["-c", "/home/.xmonad/get-volume.sh"]  "myvolume" 1,
-                --, Run Volume "default" "Master" ["-t", "<volume>% <status>"] 5
-				-- Battery Monitor
-				, Run Com "/home/gonzalo/.xmonad/getvolume-in-bar.sh" [] "volume" 2
-				--, Run Com "/home/gonzalo/.xmonad/getvolume.sh" [] "volume" 2
-				, Run BatteryP       [ "BAT0" ] 
-    				[ "--template" , "<fc=#B1DE76><icon=/home/gonzalo/.xmonad/icons/battery.xbm/></fc> <acstatus>"
-    				, "--Low"      , "10"        -- units: %
-    				, "--High"     , "80"        -- units: %
-    				, "--low"      , "#fb4934" -- #ff5555
-    				, "--normal"   , "#bbc2cf"
-    				, "--high"     , "#98be65"
-    				, "--" -- battery specific options
-           			-- discharging status
-           			, "-o"   , "<left>% (<timeleft>)"
-           			-- AC "on" status
-           			, "-O"   , "<left>% (<fc=#98be65>Charging</fc>)" -- 50fa7b
-           			-- charged status
-           			, "-i"   , "<fc=#98be65>Charged</fc>"
-    			] 50        
-        		, Run StdinReader
-    ]
-    , sepChar = "%"
-    , alignSep = "}{"
-    , template = "%StdinReader% }{%volume% | %cpu% | %coretemp% |%memory% | %battery% | %em1% | <fc=#ECBE7B>%date%</fc>"   -- #69DFFA
-}
 
+    -- Layout
+    , sepChar = "%"   -- delineator between plugin names and straight text
+    , alignSep = "}{" -- separator between left-right alignment
+    , template = "%StdinReader% }{%battery% | %volume% | %coretemp% | %cpu% | %memory% | %em1% | <fc=#ECBE7B>%date%</fc>"
+
+   	-- General behavior
+   	, lowerOnStart = True     -- send to bottom of window stack on start
+   	, hideOnStart = False     -- start with window unmapped (hidden)
+   	, allDesktops = True      -- show on all desktops
+   	, overrideRedirect = True -- set the Override Redirect flag (Xlib)
+   	, pickBroadest = False    -- choose widest display (multi-monitor)
+   	, persistent = True       -- enable/disable hiding (True = disabled)
+
+   -- Plugins
+   --   Numbers can be automatically colored according to their value. xmobar
+   --   decides color based on a three-tier/two-cutoff system, controlled by
+   --   command options:
+   --     --Low sets the low cutoff
+   --     --High sets the high cutoff
+   --
+   --     --low sets the color below --Low cutoff
+   --     --normal sets the color between --Low and --High cutoffs
+   --     --High sets the color above --High cutoff
+   --
+   --   The --template option controls how the plugin is displayed. Text
+   --   color can be set by enclosing in <fc></fc> tags. For more details
+   --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
+
+    , commands = 
+
+    	[ Run Cpu [ "--template" , "<fc=#a9a1e1><icon=/home/gonzalo/.xmonad/icons/cpu.xbm/></fc> <total>%"
+    			  , "--Low"      , "15"
+    			  , "--High"     , "70"
+    			  , "--low"      , "#98be65"
+    			  , "--normal"   , "#bbc2cf"
+    			  , "--high"     , "#fb4934"] 50
+        
+        , Run Com "/home/gonzalo/.xmonad/getvolume-in-bar.sh" [] "volume" 2
+
+        -- memory usage monitor
+        , Run Memory [ "--template" , "<fc=#51afef><icon=/home/gonzalo/.xmonad/icons/mem.xbm/></fc> <usedratio>%"
+          			 , "--Low"      , "15"
+          			 , "--High"     , "80"
+          			 , "--low"      , "#98be65"
+          			 , "--normal"   , "#bbc2cf"
+          			 , "--high"     , "#fb4934"] 50
+
+         , Run Network "em1" [ "--template" , "Net: <rx>, <tx>"
+         					 , "--High"     , "200"
+         					 , "--Low"      , "10"
+         					 , "--high"     , "#FFB6B0"
+         					 , "--low"      , "#CEFFAC"
+         					 , "--normal"   , "#FFFFCC"] 10
+        		 
+        , Run Date "%a %b %_d %k:%M" "date" 300
+        
+        , Run CoreTemp [ "--template", "<fc=#CDB464><icon=/home/gonzalo/.xmonad/icons/temp.xbm/></fc> <core0>°"
+        			   , "--Low"     , "30"
+        			   , "--High"    , "75"
+        			   , "--low"     , "lightblue"
+        			   , "--normal"  , "#bbc2cf"
+        			   , "--high"    , "#aa4450"] 50
+		
+		, Run BatteryP [ "BAT0" ] 
+    				   [ "--template" , "<fc=#B1DE76><icon=/home/gonzalo/.xmonad/icons/battery.xbm/></fc> <acstatus>"
+    					 , "--Low"    , "15"        -- units: %
+    					 , "--High"   , "80"        -- units: %
+    					 , "--low"    , "#fb4934"   -- #ff5555
+    					 , "--normal" , "#bbc2cf"
+    					 , "--high"   , "#98be65"
+    					 , "--" -- battery specific options
+           				 -- discharging status
+           				 , "-o"       , "<left>% (<timeleft>)"
+           				 -- AC "on" status
+           				 , "-O"       , "<left>% (<fc=#98be65>Charging</fc>)" -- 50fa7b
+           				 -- charged status
+           				 , "-i"       , "<fc=#98be65>Charged</fc>"
+    			] 50        
+    	, Run StdinReader
+    ]
+
+}
