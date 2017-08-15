@@ -5,13 +5,15 @@ import XMonad
 import Graphics.X11.ExtraTypes.XF86
 
 import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
-import qualified Data.List as L 
+import qualified Data.Map as M
+import Data.Monoid
+import qualified Data.List as L  -- provides isInfixOf, used for mySearchPredicate
 
 -- Actions
 import XMonad.Actions.UpdatePointer
 
 -- Hooks
+import XMonad.Hooks.FadeWindows
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -24,6 +26,10 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.ToggleLayouts -- Full window at any time
+import XMonad.Layout.Spacing -- this makes smart space around windows
+import XMonad.Layout.PerScreen -- Check screen width & adjust layouts
+import XMonad.Layout.ResizableTile -- Resizable Horizontal border
 
 -- Utils
 import XMonad.Util.Run(spawnPipe)
@@ -31,6 +37,10 @@ import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Scratchpad
 import XMonad.Util.WorkspaceCompare
+
+
+import XMonad.Prompt                        -- to get my old key bindings working
+import XMonad.Prompt.ConfirmPrompt -- don't just hard quit
 
 
 ------------------------------------------------------------------------
@@ -125,7 +135,7 @@ myLayout = avoidStruts (
     ThreeColMid 1 (3/100) (1/2) |||
     Tall 1 (3/100) (1/2) |||
     Mirror (Tall 1 (3/100) (1/2)) |||
-    tabbed shrinkText tabConfig |||
+    tabbed shrinkText myTabTheme |||
     Full |||
     spiral (6/7)) |||
     noBorders (fullscreenFull Full)
@@ -136,24 +146,96 @@ myLayout = avoidStruts (
 -- Currently based on the doom emacs theme.
 --
 
+-- Solarized Template 
+base03  = "#002b36"
+base02  = "#073642"
+base01  = "#586e75"
+base00  = "#657b83"
+base0   = "#839496"
+base1   = "#93a1a1"
+base2   = "#eee8d5"
+base3   = "#fdf6e3"
+yellow  = "#b58900"
+orange  = "#cb4b16"
+red     = "#dc322f"
+magenta = "#d33682"
+violet  = "#6c71c4"
+blue    = "#268bd2"
+cyan    = "#2aa198"
+green   = "#859900"
+
+---myNormalBorderColor     = "#000000"
+myFocusedBorderColor    = active
+
+active      = blue
+activeWarn  = red
+inactive    = base02
+focusColor  = blue
+unfocusColor = base02
+
+
+
 -- Set border color when unfocused
 myNormalBorderColor  = "#2C323C"
 -- Set norder color when focused
-myFocusedBorderColor = "#51afef"
+---myFocusedBorderColor = "#51afef"
 
 --OLD: based ir_black theme
 --myNormalBorderColor  = "#7c7c7c"
 --myFocusedBorderColor = "#ffb6b0"
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
-tabConfig = defaultTheme {
-    activeBorderColor = "#51afef",
-    activeTextColor = "#51afef",
-    activeColor = "#000000",
-    inactiveBorderColor = "#7C7C7C",
-    inactiveTextColor = "#EEEEEE",
-    inactiveColor = "#2C323C"
+--- Doom Emacs Theme
+--tabConfig = defaultTheme {
+--    activeBorderColor = "#51afef"
+--    , activeTextColor = "#51afef"
+--    , activeColor = "#000000"
+--    , inactiveBorderColor = "#7C7C7C"
+--    , inactiveTextColor = "#EEEEEE"
+--    , inactiveColor = "#2C323C"
+--}
+
+myFont = "-*-terminus-medium-*-*-*-*-160-*-*-*-*-*-*"
+
+myTabTheme = defaultTheme {
+    fontName = myFont
+    , activeBorderColor = active
+    , activeTextColor = base03
+    , activeColor = active
+    , inactiveBorderColor = base02
+    , inactiveTextColor = base00
+    , inactiveColor = base02
 }
+
+topBarTheme = defaultTheme { 
+    fontName              = myFont
+    , inactiveBorderColor   = base03
+    , inactiveColor         = base03
+    , inactiveTextColor     = base03
+    , activeBorderColor     = active
+    , activeColor           = active
+    , activeTextColor       = active
+    , urgentBorderColor     = red
+    , urgentTextColor       = yellow
+--    , decoHeight            = topbar
+}
+
+
+--TODO: FIX
+-- this is a "fake title" used as a highlight bar in lieu of full borders
+-- (I find this a cleaner and less visually intrusive solution)
+---topBarTheme = def
+---    { fontName              = myFont
+---    , inactiveBorderColor   = base03
+---    , inactiveColor         = base03
+---    , inactiveTextColor     = base03
+---    , activeBorderColor     = active
+---    , activeColor           = active
+---    , activeTextColor       = active
+---    , urgentBorderColor     = red
+---    , urgentTextColor       = yellow
+---    , decoHeight            = topbar
+---}
 
 -- Color of current window title in xmobar.
 --xmobarTitleColor = "#FFB6B0"
@@ -181,25 +263,20 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   --
 
   -- Start a terminal.  Terminal to start is specified by myTerminal variable.
-  [ ((modMask .|. shiftMask, xK_Return),
-     spawn $ XMonad.terminal conf)
+  [ ((modMask .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
   -- Lock the screen using command specified by myScreensaver.
-  , ((modMask .|. controlMask, xK_l),
-     spawn myScreensaver)
+  , ((modMask .|. controlMask, xK_l), spawn myScreensaver)
 
   -- Spawn the launcher using command specified by myLauncher.
   -- Use this to launch programs without a key binding.
-  , ((modMask, xK_p),
-     spawn myLauncher)
+  , ((modMask, xK_p), spawn myLauncher)
 
   -- Take a selective screenshot using the command specified by mySelectScreenshot.
-  , ((modMask .|. shiftMask, xK_p),
-     spawn myLauncherWindow)
+  , ((modMask .|. shiftMask, xK_p), spawn myLauncherWindow)
 
   -- Take a full screenshot using the command specified by myScreenshot.
-  , ((modMask .|. controlMask .|. shiftMask, xK_p),
-     spawn myScreenshot)
+  , ((modMask .|. controlMask .|. shiftMask, xK_p), spawn myScreenshot)
 
   -- Mute volume.
   , ((0, xF86XK_AudioMute),
@@ -230,20 +307,16 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   --
 
   -- Close focused window.
-  , ((modMask .|. shiftMask, xK_c),
-     kill)
+  , ((modMask .|. shiftMask, xK_c), kill)
 
   -- Cycle through the available layout algorithms.
-  , ((modMask, xK_space),
-     sendMessage NextLayout)
+  , ((modMask, xK_space), sendMessage NextLayout)
 
   --  Reset the layouts on the current workspace to default.
-  , ((modMask .|. shiftMask, xK_space),
-     setLayout $ XMonad.layoutHook conf)
+  , ((modMask .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
 
   -- Resize viewed windows to the correct size.
-  , ((modMask, xK_n),
-     refresh)
+  , ((modMask, xK_n), refresh)
 
   -- Move focus to the next window.
   , ((modMask, xK_Tab),
@@ -297,15 +370,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- TODO: update this binding with avoidStruts, ((modMask, xK_b),
 
   -- Quit xmonad.
-  , ((modMask .|. shiftMask, xK_q),
-     io (exitWith ExitSuccess))
+  , ((modMask .|. shiftMask, xK_q), io (exitWith ExitSuccess))
 
   -- Restart xmonad.
-  , ((modMask, xK_q),
-     restart "xmonad" True)
+  , ((modMask, xK_q), restart "xmonad" True)
 
-  , ((modMask, xK_s),
-     namedScratchpadAction myScratchpads "termscratch")
+  , ((modMask, xK_s), namedScratchpadAction myScratchpads "termscratch")
   ]
   ++
 
@@ -369,6 +439,8 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- By default, do nothing.
 myStartupHook = return ()
 
+--TODO:FIX
+--addTopBar = noFrillsDeco shrinkText topBarTheme
 
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
@@ -378,9 +450,16 @@ main = do
   xmonad $ defaults {
       logHook = dynamicLogWithPP $ xmobarPP {
             ppOutput = hPutStrLn xmproc
-            , ppCurrent = xmobarColor "#51afef" "" . wrap "[" "]"   -- #9BC1B2 #69DFFA
-            , ppTitle = xmobarColor "#c678dd" "" . shorten 50       -- #9BC1B2 #69DFFA
-            , ppLayout = xmobarColor "#ECBE7B" "" . myIcons
+            , ppCurrent = xmobarColor active "" . wrap "[" "]"   -- #9BC1B2 #69DFFA
+            , ppTitle = xmobarColor active "" . shorten 50       -- #9BC1B2 #69DFFA
+            , ppLayout = xmobarColor yellow "" . myIcons
+            , ppVisible = xmobarColor base0  "" . wrap "(" ")"
+            , ppUrgent = xmobarColor red "" . wrap " " " "
+            , ppWsSep = " "
+            , ppOrder = id
+            --TODO:FIX
+            --, ppHidden = check
+            , ppHiddenNoWindows = const ""
       }
       , manageHook = manageDocks <+> myManageHook
       , startupHook = setWMName "LG3D"
@@ -398,6 +477,18 @@ myIcons layout
     | otherwise                     = "<icon=/home/gonzalo/.xmonad/icons/layout-gimp.xbm/>"
   where is = (`L.isInfixOf` layout)
 
+
+--TODO:FIX opacity when windows is unofocused
+--myFadeHook = composeAll
+--    [ opaque -- default to opaque
+--    , isUnfocused --> opacity 0.85
+--    , (className =? "Terminator") <&&> (isUnfocused) --> opacity 0.9
+--    , (className =? "URxvt") <&&> (isUnfocused) --> opacity 0.9
+--   -- , fmap ("Google" `isPrefixOf`) className --> opaque
+--    , isDialog --> opaque 
+--    --, isUnfocused --> opacity 0.55
+--    --, isFloating  --> opacity 0.75
+--    ]
 
 
 ------------------------------------------------------------------------
