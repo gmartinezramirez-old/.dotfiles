@@ -17,16 +17,27 @@ source ~/.zplug/init.zsh
 
 # Supports oh-my-zsh plugins and the like
 zplug "plugins/git",   from:oh-my-zsh
+zplug "supercrabtree/k"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-history-substring-search", defer:3
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
+#zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "Tarrasch/zsh-bd"
 # Async for zsh, used by pure
  zplug "mafredri/zsh-async", from:github, defer:0
 # # Load completion library for those sweet [tab] squares
  zplug "lib/completion", from:oh-my-zsh
- zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+#zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+
+#setopt prompt_subst # Make sure prompt is able to be generated properly.
+#zplug "caiogondim/bullet-train.zsh", use:bullet-train.zsh-theme, defer:3 # defer until other plugins like oh-my-zsh is loaded
+
+#zplug mafredri/zsh-async, from:github
+zplug "YourFin/pure", use:pure-agnoster.zsh, from:github, as:theme
+zplug "zdharma/fast-syntax-highlighting", defer:2
+zplug "djui/alias-tips"
+
+#zplug "eendroroy/alien", as:theme
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -215,10 +226,6 @@ alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET
 export TERM=xterm-256color # 256 colour support
 export EDITOR="nvim"
 export VISUAL="nvim"
-export MYNVIMRC="~/.config/nvim/init.vim"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
-export INFOPATH=/usr/local/texlive/2017/texmf/doc/info:$INFOPATH
-export MANPATH=/usr/local/texlive/2017/texmf/doc/man:$MANPATH
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
