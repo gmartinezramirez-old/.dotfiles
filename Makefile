@@ -4,15 +4,15 @@ PACKAGES=$(sort $(dir $(wildcard */)))
 
 .PHONY: install
 install:
-    stow -t ~ $(PACKAGES)
+	stow -t ~ $(PACKAGES)
 
 .PHONY: uninstall
 uninstall:
-    stow -Dt ~ $(PACAKGES)
+	stow -Dt ~ $(PACAKGES)
 
 .PHONY: update
 update: pull install
 
 .PHONY: pull
 pull:
-    git pull
+	git pull
