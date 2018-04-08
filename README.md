@@ -33,6 +33,7 @@
 
 <!-- In this section add badges for detailed information -->
 
+<a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
 ![](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 ![](https://img.shields.io/badge/documentation-etc-red.svg?style=flat-square)
 
