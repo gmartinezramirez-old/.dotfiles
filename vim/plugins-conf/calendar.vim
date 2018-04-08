@@ -1,1 +1,0 @@
-let g:calendar_date_month_name = 1
